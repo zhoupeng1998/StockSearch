@@ -1,0 +1,253 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.a {
+    text-decoration: none;
+    color: black;
+}
+
+input:focus {
+	outline: none;
+}
+
+#outerSec::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+
+    background: url(/static/img/back.svg) top center;
+    width: 100%;
+    height: 100%;
+    background-attachment: fixed;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin: auto;
+}
+
+#mainSec {
+    width: 1000px;
+    margin: auto;
+}
+
+#searchSec {
+    text-align: center;
+    padding: 100px 0px 50px 0px;
+}
+
+#titleText {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 35px;
+    padding: 0px 0px 20px 0px;
+}
+
+#inputSec {
+    display: inline-block;
+    height: 100%;
+    padding: 1rem;
+    background-color: white;
+    box-shadow: 0px 1px 5px lightgrey;
+    transition: all .2s;
+    border-radius: 10px;
+}
+
+#inputLeft {
+    display: inline-block;
+    flex-grow: 1;
+    margin-right: 0.2rem;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    transition: all .2s;
+}
+
+#inputRight {
+    display: inline-block;
+}
+
+#buttomLeft {
+    display: inline-block;
+}
+
+.buttonImg {
+    height: 20px;
+    width: 20px;
+    opacity: .4;
+}
+
+.buttonImg:hover {
+    opacity: 1;
+}
+
+#inputField {
+    font-size: 20px;
+    border: 0;
+}
+
+#barSec {
+    display: inline-block;
+    margin: 0px 0px 50px 0px;
+    height: 40px;
+    width: 100%;
+    background-color: #f8f9fa;
+}
+
+.secBox {
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 10px;
+    height: 40px;
+    display: inline-block;
+    margin: auto;
+    background-color: #f8f9fa;
+}
+
+#companyInfoSec {
+    text-align: center;
+}
+
+#companyLogo {
+    padding-bottom: 15px;
+    width: 100px;
+}
+
+.companyTable {
+    margin: auto;
+    border-collapse: collapse;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 25px;
+    font-weight: 100;
+    width: 600px;
+}
+
+.companyTableR {
+    border-top: 1px solid lightgray;
+    border-bottom: 1px solid lightgray;
+    margin: 10px;
+}
+
+.companyTableH {
+    font-size: 15px;
+    font-weight: bold;
+    text-align: right;
+    width: 50%;
+    padding: 4px;
+}
+
+.companyTableD {
+    font-size: 15px;
+    font-weight: lighter;
+    text-align: left;
+    width: 50%;
+    padding: 4px;
+}
+
+#companyTableRBottom {
+    border-bottom-width: 2px;
+}
+
+.summaryTrends {
+    margin-top: 15px;
+}
+
+.summaryTrendText {
+    display: inline-block;
+    margin: auto;
+    padding: 8.5px;
+    font-size: 14px;
+}
+
+.summaryTrendItem {
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    color: white;
+    margin: auto;
+    padding: 8.5px;
+    font-size: 16px;
+}
+
+#redTrendText {
+    color: red;
+}
+
+#greenTrendText {
+    color: green;
+}
+
+#bgTrendA {
+    background-color: #ea253e;
+}
+
+#bgTrendB {
+    background-color: #b05e4d;
+}
+
+#bgTrendC {
+    background-color: #77945e;
+}
+
+#bgTrendD {
+    background-color: #40ca70;
+}
+
+#bgTrendE {
+    background-color: #21ff83;
+}
+
+.summaryUnder {
+    padding-top: 10px;
+    font-size: 16px;
+}
+
+.arrowImg {
+    width: 12px;
+}
+
+.newsEntry {
+    height: 100px;
+    background-color: #f8f9fa;
+    margin: 10px;
+}
+
+.newsImgDiv {
+    padding: 5px;
+    width: 90px;
+    height: 90px;
+    display: inline-block;
+}
+
+.newsContent {
+    display: inline-block;
+    padding: 5px;
+    vertical-align: top;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    width: 870px;
+}
+
+.newsHead {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.newsImg {
+    width: 90px;
+    height: 90px;
+}
+
+#errorSec {
+    text-align: center;
+    margin: 60px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    background-color: lightgray;
+    width: 50%;
+    font-size: 16px;
+    border-radius: 10px;
+}
+
+#blankSec {
+    height: 100px;
+}
