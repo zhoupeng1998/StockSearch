@@ -49,7 +49,7 @@ def validateNews(feed):
 
 @app.route("/", methods=['GET'])
 def indexPage():
-    return render_template("index.html")
+    return app.send_static_file("index.html")
 
 @app.route("/<name>")
 def helloPage(name):
