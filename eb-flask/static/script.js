@@ -464,6 +464,20 @@ function showNews() {
     }
 }
 
+function submitInput() {
+    var isValid = document.querySelector('#inputForm').reportValidity();
+    currentBox = '#companyBox';
+    $(".secBox").css('background-color', '#f8f9fa');
+    $("#companyBox").css('background-color', 'gray');
+    msg = $("#inputField").val().toUpperCase();
+    if (msg == '') {
+        handleClear();
+    } else {
+        currentBox = '#companyBox';
+        showCompany();
+    }
+}
+
 $(document).ready(() => {
 
     $("#barSec").hide()
@@ -474,21 +488,12 @@ $(document).ready(() => {
     });
 
     $("#searchButton").click(() => {
-        var isValid = document.querySelector('#inputForm').reportValidity();
-        currentBox = '#companyBox';
-        $(".secBox").css('background-color', '#f8f9fa');
-        $("#companyBox").css('background-color', 'gray');
-        msg = $("#inputField").val().toUpperCase();
-        if (msg == '') {
-            handleClear();
-        } else {
-            currentBox = '#companyBox';
-            showCompany();
-        }
+        submitInput();
     });
 
     $("#inputForm").submit(e => {
         e.preventDefault();
+        submitInput();
     });
 
     $("#companyBox").hover(() => {
