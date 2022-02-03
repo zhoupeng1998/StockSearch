@@ -48,6 +48,7 @@ def validateNews(feed):
     return True
 
 @app.route("/", methods=['GET'])
+@app.route("/index", methods=['GET'])
 def indexPage():
     return app.send_static_file("index.html")
 
