@@ -46,8 +46,8 @@ input:focus {
 #inputSec {
     display: inline-block;
     height: 100%;
-    background-color: white;
     transition: all .2s;
+    width: 100%;
 }
 
 #inputLeft {
@@ -59,6 +59,9 @@ input:focus {
     transition: all .2s;
     box-shadow: 0px 1px 5px lightgrey;
     padding: 1rem;
+    width: 40%;
+    text-align: left;
+    background-color: white;
 }
 
 #inputRight {
@@ -67,6 +70,7 @@ input:focus {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     padding: 1rem;
+    background-color: white;
 }
 
 #buttomLeft {
