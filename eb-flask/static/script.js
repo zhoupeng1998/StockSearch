@@ -222,7 +222,7 @@ function prepareChartContent() {
             text: `Stock Price ${ticker} ${currentCandle['today']}`
         },
         subtitle: {
-            text: '<a href=\'https://finnhub.io/\'>Source: Finnhub</a>',
+            text: '<a href=\'https://finnhub.io/\' target="_blank">Source: Finnhub</a>',
             style: {
                 "text-decoration": "underline",
                 "color": "blue"
