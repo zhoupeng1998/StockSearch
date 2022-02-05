@@ -380,7 +380,7 @@ function showCompany() {
                 }
             },
             error: (xhr, type) => {
-                $("#infoSec").html("Server down");
+                handleNotFound();
             }
         });
     }
@@ -402,7 +402,7 @@ function showSummary() {
                 cachedSummary[msg] = text;
             },
             error: (xhr, type) => {
-                $("#infoSec").html("Server down");
+                handleNotFound();
             }
        });
     }
@@ -436,7 +436,7 @@ function showCharts() {
                 prepareChartContent();
             },
             error: (xhr, type) => {
-                $("#infoSec").html("Server down");
+                handleNotFound();
             }
        });
     }
@@ -458,7 +458,7 @@ function showNews() {
                 cachedNews[msg] = text;
             },
             error: (xhr, type) => {
-                $("#infoSec").html("Server down");
+                handleNotFound();
             }
        });
     }

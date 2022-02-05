@@ -3,6 +3,7 @@ import requests
 import json
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+import pytz
 
 key = 'c7qen62ad3i9it666nrg'
 app = Flask(__name__)
@@ -93,7 +94,7 @@ def getSummary(name):
 @app.route("/candle/<name>", methods=['GET'])
 def getCandle(name):
     func = request.args.get('callback')
-    enddate = datetime.today()
+    enddate = datetime.now(pytz.timezone('America/Los_Angeles'))
     startdate = enddate + relativedelta(months=-6, days=-1)
     payload = {'symbol': name.upper(), 'resolution': 'D' ,'token': key, 
         'from': int(datetime.timestamp(startdate)), 'to': int(datetime.timestamp(enddate))}
@@ -114,7 +115,7 @@ def getCandle(name):
 @app.route("/news/<name>", methods=['GET'])
 def getNews(name):
     func = request.args.get('callback')
-    enddate = datetime.today()
+    enddate = datetime.now(pytz.timezone('America/Los_Angeles'))
     startdate = enddate + relativedelta(days=-30)
     payload = {'symbol': name.upper(), 'token': key, 
         'from': startdate.strftime('%Y-%m-%d'), 'to': enddate.strftime('%Y-%m-%d')}
