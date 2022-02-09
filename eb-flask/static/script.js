@@ -9,6 +9,7 @@ cachedNoSearch = {}
 currentCandle = {}
 
 msg = ""
+var timestamp = null
 
 function handleClear() {
     $("#barSec").hide()
@@ -373,9 +374,10 @@ function handleNotFound() {
 }
 
 function showCompany() {
-    if (msg in cachedNoSearch) {
+    let now = Date.now();
+    if (msg in cachedNoSearch && now - timestamp < 60000) {
         handleNotFound();
-    } else if (msg in cachedCompany) {
+    } else if (msg in cachedCompany && now - timestamp < 60000) {
         $("#infoSec").html(cachedCompany[msg]);
         $("#barSec").show();
         $("#infoSec").show();
@@ -397,6 +399,7 @@ function showCompany() {
                     $("#barSec").show();
                     $("#infoSec").show();
                 }
+                timestamp = now;
             },
             error: (xhr, type) => {
                 handleNotFound();
@@ -406,7 +409,8 @@ function showCompany() {
 }
 
 function showSummary() {
-    if (msg in cachedSummary) {
+    let now = Date.now();
+    if (msg in cachedSummary && now - timestamp < 60000) {
         $("#infoSec").html(cachedSummary[msg]);
     } else {
         $.ajax({
@@ -419,6 +423,7 @@ function showSummary() {
                 let text = prepareSummaryContent(object);
                 $("#infoSec").html(text);
                 cachedSummary[msg] = text;
+                timestamp = now;
             },
             error: (xhr, type) => {
                 handleNotFound();
@@ -434,7 +439,8 @@ function showCharts() {
         </figure>
     `;
     $("#infoSec").html(text);
-    if (msg in cachedCandle) {
+    let now = Date.now();
+    if (msg in cachedCandle && now - timestamp < 60000) {
         currentCandle = cachedCandle[msg];
         prepareChartContent();
     } else {
@@ -450,6 +456,7 @@ function showCharts() {
                 currentCandle = processed;
                 console.log(currentCandle)
                 prepareChartContent();
+                timestamp = now;
             },
             error: (xhr, type) => {
                 handleNotFound();
@@ -459,7 +466,8 @@ function showCharts() {
 }
 
 function showNews() {
-    if (msg in cachedNews) {
+    let now = Date.now();
+    if (msg in cachedNews && now - timestamp < 60000) {
         $("#infoSec").html(cachedNews[msg]);
     } else {
         $.ajax({
@@ -472,6 +480,7 @@ function showNews() {
                 let text = prepareNewsContent(object);
                 $("#infoSec").html(text);
                 cachedNews[msg] = text;
+                timestamp = now;
             },
             error: (xhr, type) => {
                 handleNotFound();
@@ -495,6 +504,8 @@ function submitInput() {
 }
 
 $(document).ready(() => {
+
+    timestamp = Date.now();
 
     $("#barSec").hide()
 
