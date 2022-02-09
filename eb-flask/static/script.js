@@ -9,8 +9,6 @@ cachedNoSearch = {}
 currentCandle = {}
 
 msg = ""
-//ticket = ""
-//curCharts = "'s chart"
 
 function handleClear() {
     $("#barSec").hide()
@@ -51,19 +49,41 @@ function prepareCompanyContent(object) {
 }
 
 function prepareSummaryContent(object) {
-    var changeImgSrc = "/static/img/GreenArrowUp.png";
-    var changeImgPercentSrc = "/static/img/GreenArrowUp.png";
+    var changeImgSrc = "";
+    var changeImgPercentSrc = "";
+    var recommendation = {
+        'strongSell': "",
+        'sell': "",
+        'hold': "",
+        'buy': "",
+        'strongBuy': ""
+    };
+    if (object['recommendation']['strongSell'] !== undefined) {
+        recommendation['strongSell'] = object['recommendation']['strongSell'];
+    }
+    if (object['recommendation']['sell'] !== undefined) {
+        recommendation['sell'] = object['recommendation']['sell'];
+    }
+    if (object['recommendation']['hold'] !== undefined) {
+        recommendation['hold'] = object['recommendation']['hold'];
+    }
+    if (object['recommendation']['buy'] !== undefined) {
+        recommendation['buy'] = object['recommendation']['buy'];
+    }
+    if (object['recommendation']['strongBuy'] != undefined) {
+        recommendation['strongBuy'] = object['recommendation']['strongBuy'];
+    }
     if (object['quote']['d'] != null) {
         if (object['quote']['d'] < 0) {
             changeImgSrc = "/static/img/RedArrowDown.png";
-        } else {
+        } else if (object['quote']['d'] > 0) {
             changeImgSrc = "/static/img/GreenArrowUp.png";
         }
     }
     if (object['quote']['dp'] != null) {
         if (object['quote']['dp'] < 0) {
             changeImgPercentSrc = "/static/img/RedArrowDown.png";
-        } else {
+        } else if (object['quote']['dp'] > 0) {
             changeImgPercentSrc = "/static/img/GreenArrowUp.png";
         }
     }
@@ -109,11 +129,11 @@ function prepareSummaryContent(object) {
         </table>
         <div class="summaryTrends">
             <div class="summaryTrendText" id="redTrendText">Strong Sell</div>
-            <div class="summaryTrendItem" id="bgTrendA">${object['recommendation']['strongSell']}</div><!--
-            --><div class="summaryTrendItem" id="bgTrendB">${object['recommendation']['sell']}</div><!--
-            --><div class="summaryTrendItem" id="bgTrendC">${object['recommendation']['hold']}</div><!--
-            --><div class="summaryTrendItem" id="bgTrendD">${object['recommendation']['buy']}</div><!--
-            --><div class="summaryTrendItem" id="bgTrendE">${object['recommendation']['strongBuy']}</div>
+            <div class="summaryTrendItem" id="bgTrendA">${recommendation['strongSell']}</div><!--
+            --><div class="summaryTrendItem" id="bgTrendB">${recommendation['sell']}</div><!--
+            --><div class="summaryTrendItem" id="bgTrendC">${recommendation['hold']}</div><!--
+            --><div class="summaryTrendItem" id="bgTrendD">${recommendation['buy']}</div><!--
+            --><div class="summaryTrendItem" id="bgTrendE">${recommendation['strongBuy']}</div>
             <div class="summaryTrendText" id="greenTrendText">Strong Buy</div>
         </div>
         <div class="summaryUnder">Recommendation Trends</div>
@@ -150,7 +170,6 @@ function prepareChartContent() {
                 text: 'Volume'
             },
             labels: {
-                //format: '{value/1000000}M',
                 formatter: function() {
                     return this.value / 1000000 + "M";
                 }
@@ -418,7 +437,6 @@ function showCharts() {
     if (msg in cachedCandle) {
         currentCandle = cachedCandle[msg];
         prepareChartContent();
-        //$("#infoSec").html(cachedCandle[msg]);
     } else {
         $.ajax({
             url: "candle/" + msg,
@@ -427,8 +445,6 @@ function showCharts() {
             success: (data) => {
                 var result = JSON.stringify(data);
                 var object = JSON.parse(result);
-                //$("#infoSec").html(result);
-                //cachedCandle[msg] = result;
                 var processed = prepareChartsData(object);
                 cachedCandle[msg] = processed;
                 currentCandle = processed;
