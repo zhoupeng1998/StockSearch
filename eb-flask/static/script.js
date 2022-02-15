@@ -371,6 +371,7 @@ function handleNotFound() {
     let text = prepareErrorContent();
     $("#infoSec").html(text);
     $("#infoSec").show();
+    currentBox = '#companyBox';
 }
 
 function showCompany() {
@@ -413,22 +414,61 @@ function showSummary() {
     if (msg in cachedSummary && now - timestamp < 60000) {
         $("#infoSec").html(cachedSummary[msg]);
     } else {
-        $.ajax({
-            url: "summary/" + msg,
-            type: "GET",
-            dataType: "jsonp",
-            success: (data) => {
-                var result = JSON.stringify(data);
-                var object = JSON.parse(result);
-                let text = prepareSummaryContent(object);
-                $("#infoSec").html(text);
-                cachedSummary[msg] = text;
-                timestamp = now;
-            },
-            error: (xhr, type) => {
-                handleNotFound();
-            }
-       });
+        if (msg in cachedCompany) {
+            $.ajax({
+                url: "summary/" + msg,
+                type: "GET",
+                dataType: "jsonp",
+                success: (data) => {
+                    var result = JSON.stringify(data);
+                    var object = JSON.parse(result);
+                    let text = prepareSummaryContent(object);
+                    $("#infoSec").html(text);
+                    cachedSummary[msg] = text;
+                    timestamp = now;
+                },
+                error: (xhr, type) => {
+                    handleNotFound();
+                }
+           });
+        } else {
+            $.ajax({
+                url: "profile/" + msg,
+                type: "GET",
+                dataType: "jsonp",
+                success: (data) => {
+                    var result = JSON.stringify(data);
+                    var object = JSON.parse(result);
+                    if (object['found'] == 'N') {
+                        handleNotFound();
+                        cachedNoSearch[msg] = 'N';
+                    } else {
+                        $.ajax({
+                            url: "summary/" + msg,
+                            type: "GET",
+                            dataType: "jsonp",
+                            success: (data) => {
+                                var result = JSON.stringify(data);
+                                var object = JSON.parse(result);
+                                let text = prepareSummaryContent(object);
+                                $("#infoSec").html(text);
+                                cachedSummary[msg] = text;
+                                timestamp = now;
+                            },
+                            error: (xhr, type) => {
+                                handleNotFound();
+                            }
+                       });
+                       let text = prepareCompanyContent(object);
+                       cachedCompany[msg] = text;
+                    }
+                    timestamp = now;
+                },
+                error: (xhr, type) => {
+                    handleNotFound();
+                }
+            });
+        }
     }
 }
 
@@ -444,24 +484,65 @@ function showCharts() {
         currentCandle = cachedCandle[msg];
         prepareChartContent();
     } else {
-        $.ajax({
-            url: "candle/" + msg,
-            type: "GET",
-            dataType: "jsonp",
-            success: (data) => {
-                var result = JSON.stringify(data);
-                var object = JSON.parse(result);
-                var processed = prepareChartsData(object);
-                cachedCandle[msg] = processed;
-                currentCandle = processed;
-                console.log(currentCandle)
-                prepareChartContent();
-                timestamp = now;
-            },
-            error: (xhr, type) => {
-                handleNotFound();
-            }
-       });
+        if (msg in cachedCompany) {
+            $.ajax({
+                url: "candle/" + msg,
+                type: "GET",
+                dataType: "jsonp",
+                success: (data) => {
+                    var result = JSON.stringify(data);
+                    var object = JSON.parse(result);
+                    var processed = prepareChartsData(object);
+                    cachedCandle[msg] = processed;
+                    currentCandle = processed;
+                    console.log(currentCandle)
+                    prepareChartContent();
+                    timestamp = now;
+                },
+                error: (xhr, type) => {
+                    handleNotFound();
+                }
+           });
+        } else {
+            $.ajax({
+                url: "profile/" + msg,
+                type: "GET",
+                dataType: "jsonp",
+                success: (data) => {
+                    var result = JSON.stringify(data);
+                    var object = JSON.parse(result);
+                    if (object['found'] == 'N') {
+                        handleNotFound();
+                        cachedNoSearch[msg] = 'N';
+                    } else {
+                        $.ajax({
+                            url: "candle/" + msg,
+                            type: "GET",
+                            dataType: "jsonp",
+                            success: (data) => {
+                                var result = JSON.stringify(data);
+                                var object = JSON.parse(result);
+                                var processed = prepareChartsData(object);
+                                cachedCandle[msg] = processed;
+                                currentCandle = processed;
+                                console.log(currentCandle)
+                                prepareChartContent();
+                                timestamp = now;
+                            },
+                            error: (xhr, type) => {
+                                handleNotFound();
+                            }
+                       });
+                       let text = prepareCompanyContent(object);
+                       cachedCompany[msg] = text;
+                    }
+                    timestamp = now;
+                },
+                error: (xhr, type) => {
+                    handleNotFound();
+                }
+            });
+        }
     }
 }
 
@@ -470,36 +551,91 @@ function showNews() {
     if (msg in cachedNews && now - timestamp < 60000) {
         $("#infoSec").html(cachedNews[msg]);
     } else {
-        $.ajax({
-            url: "news/" + msg,
-            type: "GET",
-            dataType: "jsonp",
-            success: (data) => {
-                var result = JSON.stringify(data);
-                var object = JSON.parse(result);
-                let text = prepareNewsContent(object);
-                $("#infoSec").html(text);
-                cachedNews[msg] = text;
-                timestamp = now;
-            },
-            error: (xhr, type) => {
-                handleNotFound();
-            }
-       });
+        if (msg in cachedCompany) {
+            $.ajax({
+                url: "news/" + msg,
+                type: "GET",
+                dataType: "jsonp",
+                success: (data) => {
+                    var result = JSON.stringify(data);
+                    var object = JSON.parse(result);
+                    let text = prepareNewsContent(object);
+                    $("#infoSec").html(text);
+                    cachedNews[msg] = text;
+                    timestamp = now;
+                },
+                error: (xhr, type) => {
+                    handleNotFound();
+                }
+           });
+        } else {
+            $.ajax({
+                url: "profile/" + msg,
+                type: "GET",
+                dataType: "jsonp",
+                success: (data) => {
+                    var result = JSON.stringify(data);
+                    var object = JSON.parse(result);
+                    if (object['found'] == 'N') {
+                        handleNotFound();
+                        cachedNoSearch[msg] = 'N';
+                    } else {
+                        $.ajax({
+                            url: "news/" + msg,
+                            type: "GET",
+                            dataType: "jsonp",
+                            success: (data) => {
+                                var result = JSON.stringify(data);
+                                var object = JSON.parse(result);
+                                let text = prepareNewsContent(object);
+                                $("#infoSec").html(text);
+                                cachedNews[msg] = text;
+                                timestamp = now;
+                            },
+                            error: (xhr, type) => {
+                                handleNotFound();
+                            }
+                       });
+                       let text = prepareCompanyContent(object);
+                       cachedCompany[msg] = text;
+                    }
+                    timestamp = now;
+                },
+                error: (xhr, type) => {
+                    handleNotFound();
+                }
+            });
+        }
     }
 }
 
 function submitInput() {
     var isValid = document.querySelector('#inputForm').reportValidity();
-    currentBox = '#companyBox';
-    $(".secBox").css('background-color', '#f8f9fa');
-    $("#companyBox").css('background-color', 'gray');
+    //currentBox = '#companyBox';
+    $(".secBox").css('background-color', '#f8f9fa'); // reset all .secBox color
+    //$("#companyBox").css('background-color', 'gray');
     msg = $("#inputField").val().toUpperCase();
     if (msg == '') {
         handleClear();
     } else {
-        currentBox = '#companyBox';
-        showCompany();
+        //currentBox = '#companyBox';
+        console.log(currentBox);
+        if (currentBox == '#companyBox') {
+            $("#companyBox").css('background-color', 'gray');
+            showCompany();
+        } else if (currentBox == '#summaryBox') {
+            $("#summaryBox").css('background-color', 'gray');
+            showSummary();
+        } else if (currentBox == '#chartsBox') {
+            $("#chartsBox").css('background-color', 'gray');
+            showCharts();
+        } else if (currentBox == '#newsBox') {
+            $("#newsBox").css('background-color', 'gray');
+            showNews();
+        } else {
+            $("#companyBox").css('background-color', 'gray');
+            showCompany();
+        }
     }
 }
 
