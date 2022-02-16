@@ -1,5 +1,6 @@
 currentBox = '#companyBox'
 
+cachedTicker = {}
 cachedCompany = {}
 cachedSummary = {}
 cachedCandle = {}
@@ -9,6 +10,7 @@ cachedNoSearch = {}
 currentCandle = {}
 
 msg = ""
+globalTicker = ""
 var timestamp = null
 
 function handleClear() {
@@ -93,7 +95,7 @@ function prepareSummaryContent(object) {
         <table class="companyTable">
             <tr class="companyTableR" id="companyTableRTop">
                 <th class="companyTableH">Stock Ticker Symbol</th>
-                <td class="companyTableD">${ticker}</th>
+                <td class="companyTableD">${cachedTicker[msg]}</th>
             </tr>
             <tr class="companyTableR">
                 <th class="companyTableH">Trading Day</th>
@@ -239,7 +241,7 @@ function prepareChartContent() {
             shared: true
         },
         title: {
-            text: `Stock Price ${ticker} ${currentCandle['today']}`
+            text: `Stock Price ${cachedTicker[msg]} ${currentCandle['today']}`
         },
         subtitle: {
             text: '<a href=\'https://finnhub.io/\' target="_blank">Source: Finnhub</a>',
@@ -364,6 +366,7 @@ function handleClear() {
     $("#barSec").hide();
     $("#infoSec").hide();
     $("#infoSec").html('');
+    currentBox = '#companyBox';
 }
 
 function handleNotFound() {
@@ -395,8 +398,10 @@ function showCompany() {
                     cachedNoSearch[msg] = 'N';
                 } else {
                     let text = prepareCompanyContent(object);
+                    globalTicker = object['ticker'];
                     $("#infoSec").html(text);
                     cachedCompany[msg] = text;
+                    cachedTicker[msg] = object['ticker'];
                     $("#barSec").show();
                     $("#infoSec").show();
                 }
@@ -422,9 +427,11 @@ function showSummary() {
                 success: (data) => {
                     var result = JSON.stringify(data);
                     var object = JSON.parse(result);
+                    globalTicker = cachedTicker[msg];
                     let text = prepareSummaryContent(object);
                     $("#infoSec").html(text);
                     cachedSummary[msg] = text;
+                    //cachedTicker[msg] = object['ticker'];
                     timestamp = now;
                 },
                 error: (xhr, type) => {
@@ -443,6 +450,8 @@ function showSummary() {
                         handleNotFound();
                         cachedNoSearch[msg] = 'N';
                     } else {
+                        globalTicker = object['ticker'];
+                        cachedTicker[msg] = object['ticker'];
                         $.ajax({
                             url: "summary/" + msg,
                             type: "GET",
@@ -480,11 +489,12 @@ function showCharts() {
     `;
     $("#infoSec").html(text);
     let now = Date.now();
-    if (msg in cachedCandle && now - timestamp < 60000) {
+    if (msg in cachedCandle && msg in cachedTicker && now - timestamp < 60000) {
         currentCandle = cachedCandle[msg];
+        globalTicker = cachedTicker[msg];
         prepareChartContent();
     } else {
-        if (msg in cachedCompany) {
+        if (msg in cachedTicker && msg in cachedCompany) {
             $.ajax({
                 url: "candle/" + msg,
                 type: "GET",
@@ -495,7 +505,7 @@ function showCharts() {
                     var processed = prepareChartsData(object);
                     cachedCandle[msg] = processed;
                     currentCandle = processed;
-                    console.log(currentCandle)
+                    globalTicker = cachedTicker[msg];
                     prepareChartContent();
                     timestamp = now;
                 },
@@ -515,6 +525,7 @@ function showCharts() {
                         handleNotFound();
                         cachedNoSearch[msg] = 'N';
                     } else {
+                        globalTicker = object['ticker'];
                         $.ajax({
                             url: "candle/" + msg,
                             type: "GET",
@@ -525,7 +536,6 @@ function showCharts() {
                                 var processed = prepareChartsData(object);
                                 cachedCandle[msg] = processed;
                                 currentCandle = processed;
-                                console.log(currentCandle)
                                 prepareChartContent();
                                 timestamp = now;
                             },
@@ -535,6 +545,7 @@ function showCharts() {
                        });
                        let text = prepareCompanyContent(object);
                        cachedCompany[msg] = text;
+                       cachedTicker[msg] = object['ticker'];
                     }
                     timestamp = now;
                 },
@@ -580,6 +591,7 @@ function showNews() {
                         handleNotFound();
                         cachedNoSearch[msg] = 'N';
                     } else {
+                        globalTicker = object['ticker'];
                         $.ajax({
                             url: "news/" + msg,
                             type: "GET",
@@ -598,6 +610,7 @@ function showNews() {
                        });
                        let text = prepareCompanyContent(object);
                        cachedCompany[msg] = text;
+                       cachedTicker[msg] = object['ticker'];
                     }
                     timestamp = now;
                 },
@@ -619,7 +632,6 @@ function submitInput() {
         handleClear();
     } else {
         //currentBox = '#companyBox';
-        console.log(currentBox);
         if (currentBox == '#companyBox') {
             $("#companyBox").css('background-color', 'gray');
             showCompany();
