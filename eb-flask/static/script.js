@@ -627,7 +627,7 @@ function submitInput() {
     //currentBox = '#companyBox';
     $(".secBox").css('background-color', '#f8f9fa'); // reset all .secBox color
     //$("#companyBox").css('background-color', 'gray');
-    msg = $("#inputField").val().toUpperCase();
+    msg = $("#inputField").val().trim().toUpperCase();
     if (msg == '') {
         handleClear();
     } else {
