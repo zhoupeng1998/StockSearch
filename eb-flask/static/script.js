@@ -52,8 +52,8 @@ function prepareCompanyContent(object) {
 }
 
 function prepareSummaryContent(object) {
-    var changeImgSrc = "";
-    var changeImgPercentSrc = "";
+    var changeImgSrc = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
+    var changeImgPercentSrc = "data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=";
     var recommendation = {
         'strongSell': "",
         'sell': "",
