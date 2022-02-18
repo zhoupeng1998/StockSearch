@@ -285,6 +285,9 @@ function prepareChartContent() {
                     }
                 },
                 threshold: null
+            }, 
+            column: {
+                pointPlacement: 'on'
             }
         },
         series: [
