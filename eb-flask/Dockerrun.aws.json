@@ -1,7 +1,7 @@
 {
     "AWSEBDockerrunVersion": "1",
     "Image": {
-      "Name": "zhoupeng1998/flask571:rc8",
+      "Name": "zhoupeng1998/flask571:rc9",
       "Update": "true"
     },
     "Ports": [

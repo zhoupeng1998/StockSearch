@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, jsonify
 import requests
 import json
 from datetime import datetime
@@ -68,10 +68,13 @@ def getProfile(name):
     else:
         raw['found'] = 'N'
     if type(func) == str:
-        return_value = func + "(" + json.dumps(raw) + ")"
-        return return_value
+        print(raw)
+        return '{funcname}({data})'.format(
+            funcname=func,
+            data=jsonify(raw),
+        )
     else:
-        return json.dumps(raw)
+        return jsonify(raw)
 
 @app.route("/summary/<name>", methods=['GET'])
 def getSummary(name):
@@ -87,9 +90,12 @@ def getSummary(name):
         msgRecom = rawRecom[0]
     result = {'symbol': name.upper(), 'quote': rawQuote, 'recommendation': msgRecom}
     if type(func) == str:
-        return func + "(" + json.dumps(result) + ")"
+        return '{funcname}({data})'.format(
+            funcname=func,
+            data=jsonify(result),
+        )
     else:
-        return json.dumps(result)
+        return jsonify(result)
 
 @app.route("/candle/<name>", methods=['GET'])
 def getCandle(name):
@@ -107,9 +113,12 @@ def getCandle(name):
         raw['t'] = [t * 1000 for t in raw['t']] 
     raw['today'] = enddate.strftime('%Y-%m-%d')
     if type(func) == str:
-        return func + "(" + json.dumps(raw) + ")"
+        return '{funcname}({data})'.format(
+            funcname=func,
+            data=jsonify(raw),
+        )
     else:
-        return json.dumps(raw)
+        return jsonify(raw)
 
 
 @app.route("/news/<name>", methods=['GET'])
@@ -130,9 +139,12 @@ def getNews(name):
             selected.append(raw[i])
         i += 1
     if type(func) == str:
-        return func + "(" + json.dumps(selected) + ")"
+        return '{funcname}({data})'.format(
+            funcname=func,
+            data=jsonify(selected),
+        )
     else:
-        return json.dumps(selected)
+        return jsonify(selected)
 
 # run the app.
 if __name__ == "__main__":

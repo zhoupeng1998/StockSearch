@@ -392,10 +392,9 @@ function showCompany() {
         $.ajax({
             url: "profile/" + msg,
             type: "GET",
-            dataType: "jsonp",
+            dataType: "json",
             success: (data) => {
-                var result = JSON.stringify(data);
-                var object = JSON.parse(result);
+                var object = data;
                 if (object['found'] == 'N') {
                     handleNotFound();
                     cachedNoSearch[msg] = 'N';
@@ -426,10 +425,9 @@ function showSummary() {
             $.ajax({
                 url: "summary/" + msg,
                 type: "GET",
-                dataType: "jsonp",
+                dataType: "json",
                 success: (data) => {
-                    var result = JSON.stringify(data);
-                    var object = JSON.parse(result);
+                    var object = data;
                     globalTicker = cachedTicker[msg];
                     let text = prepareSummaryContent(object);
                     $("#infoSec").html(text);
@@ -445,10 +443,9 @@ function showSummary() {
             $.ajax({
                 url: "profile/" + msg,
                 type: "GET",
-                dataType: "jsonp",
+                dataType: "json",
                 success: (data) => {
-                    var result = JSON.stringify(data);
-                    var object = JSON.parse(result);
+                    var object = data;
                     if (object['found'] == 'N') {
                         handleNotFound();
                         cachedNoSearch[msg] = 'N';
@@ -458,10 +455,9 @@ function showSummary() {
                         $.ajax({
                             url: "summary/" + msg,
                             type: "GET",
-                            dataType: "jsonp",
+                            dataType: "json",
                             success: (data) => {
-                                var result = JSON.stringify(data);
-                                var object = JSON.parse(result);
+                                var object = data;
                                 let text = prepareSummaryContent(object);
                                 $("#infoSec").html(text);
                                 cachedSummary[msg] = text;
@@ -501,10 +497,9 @@ function showCharts() {
             $.ajax({
                 url: "candle/" + msg,
                 type: "GET",
-                dataType: "jsonp",
+                dataType: "json",
                 success: (data) => {
-                    var result = JSON.stringify(data);
-                    var object = JSON.parse(result);
+                    var object = data;
                     var processed = prepareChartsData(object);
                     cachedCandle[msg] = processed;
                     currentCandle = processed;
@@ -520,10 +515,9 @@ function showCharts() {
             $.ajax({
                 url: "profile/" + msg,
                 type: "GET",
-                dataType: "jsonp",
+                dataType: "json",
                 success: (data) => {
-                    var result = JSON.stringify(data);
-                    var object = JSON.parse(result);
+                    var object = data;
                     if (object['found'] == 'N') {
                         handleNotFound();
                         cachedNoSearch[msg] = 'N';
@@ -532,10 +526,9 @@ function showCharts() {
                         $.ajax({
                             url: "candle/" + msg,
                             type: "GET",
-                            dataType: "jsonp",
+                            dataType: "json",
                             success: (data) => {
-                                var result = JSON.stringify(data);
-                                var object = JSON.parse(result);
+                                var object = data;
                                 var processed = prepareChartsData(object);
                                 cachedCandle[msg] = processed;
                                 currentCandle = processed;
@@ -569,10 +562,9 @@ function showNews() {
             $.ajax({
                 url: "news/" + msg,
                 type: "GET",
-                dataType: "jsonp",
+                dataType: "json",
                 success: (data) => {
-                    var result = JSON.stringify(data);
-                    var object = JSON.parse(result);
+                    var object = data;
                     let text = prepareNewsContent(object);
                     $("#infoSec").html(text);
                     cachedNews[msg] = text;
@@ -586,10 +578,9 @@ function showNews() {
             $.ajax({
                 url: "profile/" + msg,
                 type: "GET",
-                dataType: "jsonp",
+                dataType: "json",
                 success: (data) => {
-                    var result = JSON.stringify(data);
-                    var object = JSON.parse(result);
+                    var object = data;
                     if (object['found'] == 'N') {
                         handleNotFound();
                         cachedNoSearch[msg] = 'N';
@@ -598,10 +589,9 @@ function showNews() {
                         $.ajax({
                             url: "news/" + msg,
                             type: "GET",
-                            dataType: "jsonp",
+                            dataType: "json",
                             success: (data) => {
-                                var result = JSON.stringify(data);
-                                var object = JSON.parse(result);
+                                var object = data;
                                 let text = prepareNewsContent(object);
                                 $("#infoSec").html(text);
                                 cachedNews[msg] = text;
