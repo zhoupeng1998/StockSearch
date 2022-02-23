@@ -380,6 +380,75 @@ function handleNotFound() {
     currentBox = '#companyBox';
 }
 
+function bgQueryCompany(msg) {
+    $.ajax({
+        url: "profile/" + msg,
+        type: "GET",
+        dataType: "json",
+        success: (data) => {
+            var object = data;
+            if (object['found'] == 'N') {
+                cachedNoSearch[msg] = 'N';
+            } else {
+                let text = prepareCompanyContent(object);
+                cachedCompany[msg] = text;
+                cachedTicker[msg] = object['ticker'];
+            }
+        },
+        error: (xhr, type) => {
+        }
+    });
+}
+
+function bgQuerySummary(msg) {
+    if (!(msg in cachedTicker)) {
+        console.log(msg + " ticker not cached!");
+    }
+    $.ajax({
+        url: "summary/" + msg,
+        type: "GET",
+        dataType: "json",
+        success: (data) => {
+            var object = data;
+            let text = prepareSummaryContent(object);
+            cachedSummary[msg] = text;
+        },
+        error: (xhr, type) => {
+        }
+   });
+}
+
+function bgQueryCandle(msg) {
+    $.ajax({
+        url: "candle/" + msg,
+        type: "GET",
+        dataType: "json",
+        success: (data) => {
+            var object = data;
+            var processed = prepareChartsData(object);
+            cachedCandle[msg] = processed;
+            currentCandle = processed;
+        },
+        error: (xhr, type) => {
+        }
+   });
+}
+
+function bgQueryNews(msg) {
+    $.ajax({
+        url: "news/" + msg,
+        type: "GET",
+        dataType: "json",
+        success: (data) => {
+            var object = data;
+            let text = prepareNewsContent(object);
+            cachedNews[msg] = text;
+        },
+        error: (xhr, type) => {
+        }
+   });
+}
+
 function showCompany() {
     let now = Date.now();
     if (msg in cachedNoSearch && now - timestamp < 60000) {
@@ -407,6 +476,15 @@ function showCompany() {
                     $("#barSec").show();
                     $("#infoSec").show();
                 }
+                if (now - timestamp >= 60000 || !(msg in cachedCandle)) {
+                    bgQueryCandle(msg);
+                }
+                if (now - timestamp >= 60000 || !(msg in cachedSummary)) {
+                    bgQuerySummary(msg);
+                }
+                if (now - timestamp >= 60000 || !(msg in cachedNews)) {
+                    bgQueryNews(msg);
+                }
                 timestamp = now;
             },
             error: (xhr, type) => {
@@ -433,6 +511,12 @@ function showSummary() {
                     $("#infoSec").html(text);
                     cachedSummary[msg] = text;
                     //cachedTicker[msg] = object['ticker'];
+                    if (now - timestamp >= 60000 || !(msg in cachedCandle)) {
+                        bgQueryCandle(msg);
+                    }
+                    if (now - timestamp >= 60000 || !(msg in cachedNews)) {
+                        bgQueryNews(msg);
+                    }
                     timestamp = now;
                 },
                 error: (xhr, type) => {
@@ -466,8 +550,14 @@ function showSummary() {
                             error: (xhr, type) => {
                                 handleNotFound();
                             }
-                       });
-                       let text = prepareCompanyContent(object);
+                        });
+                        let text = prepareCompanyContent(object);
+                        if (now - timestamp >= 60000 || !(msg in cachedCandle)) {
+                            bgQueryCandle(msg);
+                        }
+                        if (now - timestamp >= 60000 || !(msg in cachedNews)) {
+                            bgQueryNews(msg);
+                        }
                        cachedCompany[msg] = text;
                     }
                     timestamp = now;
@@ -505,6 +595,12 @@ function showCharts() {
                     currentCandle = processed;
                     globalTicker = cachedTicker[msg];
                     prepareChartContent();
+                    if (now - timestamp >= 60000 || !(msg in cachedSummary)) {
+                        bgQuerySummary(msg);
+                    }
+                    if (now - timestamp >= 60000 || !(msg in cachedNews)) {
+                        bgQueryNews(msg);
+                    }
                     timestamp = now;
                 },
                 error: (xhr, type) => {
@@ -543,6 +639,12 @@ function showCharts() {
                        cachedCompany[msg] = text;
                        cachedTicker[msg] = object['ticker'];
                     }
+                    if (now - timestamp >= 60000 || !(msg in cachedSummary)) {
+                        bgQuerySummary(msg);
+                    }
+                    if (now - timestamp >= 60000 || !(msg in cachedNews)) {
+                        bgQueryNews(msg);
+                    }
                     timestamp = now;
                 },
                 error: (xhr, type) => {
@@ -568,6 +670,12 @@ function showNews() {
                     let text = prepareNewsContent(object);
                     $("#infoSec").html(text);
                     cachedNews[msg] = text;
+                    if (now - timestamp >= 60000 || !(msg in cachedCandle)) {
+                        bgQueryCandle(msg);
+                    }
+                    if (now - timestamp >= 60000 || !(msg in cachedSummary)) {
+                        bgQuerySummary(msg);
+                    }
                     timestamp = now;
                 },
                 error: (xhr, type) => {
@@ -604,6 +712,12 @@ function showNews() {
                        let text = prepareCompanyContent(object);
                        cachedCompany[msg] = text;
                        cachedTicker[msg] = object['ticker'];
+                    }
+                    if (now - timestamp >= 60000 || !(msg in cachedCandle)) {
+                        bgQueryCandle(msg);
+                    }
+                    if (now - timestamp >= 60000 || !(msg in cachedSummary)) {
+                        bgQuerySummary(msg);
                     }
                     timestamp = now;
                 },
