@@ -1,0 +1,21 @@
+* {
+    margin: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    content: "";
+    position: absolute;
+    z-index: -1;
+
+    background: linear-gradient(rgba(255,255,255,.5), rgba(255,255,255,.5)), url(background-graph.jpg) top center;
+    background-size: cover;
+    width: 100%;
+    min-height: 100%;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    margin: auto;
+}

@@ -1,0 +1,20 @@
+.root-container::after {
+    content: "";
+    display: block;
+    height: 30px;
+}
+
+.root-container {
+    min-height: 100%;
+    margin-bottom: -30px;
+}
+
+#footer-bar {
+    background-color: lightgray; 
+    text-align: center;
+    height: 30px;
+}
+
+#footer-text {
+    padding: 3px;
+}
