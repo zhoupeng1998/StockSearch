@@ -1,0 +1,50 @@
+.input-box-sec {
+    padding: 3px;
+    border: 3px solid blueviolet;
+    width: 400px;
+    max-width: 100%;
+    align-items: center;
+    margin: auto;
+    border-radius: 20px;
+}
+
+.input-box-left {
+    display: inline-block;
+    width: 85%;
+}
+
+.input-box-right {
+    display: inline-block;
+    width: 15%;
+}
+
+.input-form {
+    text-align: center;
+    display: inline-block;
+    flex-grow: 1;
+}
+
+.input-field {
+    font-size: 17px;
+    border: 0;
+    margin: 0 10px 0 15px;
+    width: 300px;
+    max-width: 95%;
+    flex-grow: 1;
+    display:table-cell;
+}
+
+.input-fill {
+    display:table-cell;width:100%;
+}
+
+.input-icon {
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    filter: invert(11%) sepia(67%) saturate(3604%) hue-rotate(263deg) brightness(96%) contrast(98%);
+}
+
+.input-icon:hover {
+    fill: black;
+}

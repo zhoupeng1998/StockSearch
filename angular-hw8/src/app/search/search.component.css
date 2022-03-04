@@ -1,0 +1,40 @@
+.search-info-top {
+    background-color: pink;
+    margin: auto;
+}
+
+.search-top-mid {
+    background-color: chartreuse;
+    min-width: 60px;
+}
+
+.search-top-right {
+    text-align: right;
+}
+
+.summary-content {
+    margin: auto;
+}
+
+.summary-left {
+    background-color: azure;
+}
+
+.summary-chart {
+    background-color: aqua;
+}
+
+.summary-price {
+    background-color: bisque;
+}
+
+.insignts-sentiments {
+    width: 600px;
+    max-width: 100%;
+    margin: auto;
+    background-color: aquamarine;
+}
+
+.insights-lower {
+    margin: auto;
+}

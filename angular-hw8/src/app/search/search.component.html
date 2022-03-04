@@ -1,0 +1,57 @@
+<app-searchbar (notify)="onNotify()"></app-searchbar>
+
+<ngb-alert id="invalid-ticker-alert" *ngIf="invalidSymbolFlag" [dismissible]="false">
+    No data found. Please enter a valid ticker
+</ngb-alert>
+
+<ngb-alert id="no-input-alert" *ngIf="noInputFlag" (closed)="closeNoInputAlert()">
+    Please enter a valid ticker
+</ngb-alert>
+
+<div class="search-display-info" id="search-display-info" *ngIf="validSymbolFlag">
+    <div class="row search-info-top">
+        <div class="col search-top-left">
+            <p>{{ inputText }} left works!</p>
+        </div>
+        <div class="col-1 search-top-mid">
+            <p>[C]</p>
+        </div>
+        <div class="col search-top-right">
+            <p>{{ inputText }} right works!</p>
+        </div>
+    </div>
+    <div class="search-info-details">
+        <mat-tab-group mat-stretch-tabs>
+            <mat-tab label="Summary">
+                <div class="row summary-content">
+                    <div class="col-md summary-left">
+                        <div class="summary-price">
+                            Summary Price
+                        </div>
+                        <div class="summary-about">
+                            Summary About
+                        </div>
+                    </div>
+                    <div class="col-md summary-chart">
+                        Summary Chart
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab label="Top News"> News Content </mat-tab>
+            <mat-tab label="Charts"> Charts Content </mat-tab>
+            <mat-tab label="Insights">
+                <div class="insignts-sentiments">
+                    Social Sentiments
+                </div>
+                <div class="row insights-lower">
+                    <div class="col-md insignts-lower-left">
+                        Recommendation Trends
+                    </div>
+                    <div class="col-md insignts-lower-right">
+                        Historical EPS Surprises
+                    </div>
+                </div>
+            </mat-tab>
+          </mat-tab-group>
+    </div>
+</div>

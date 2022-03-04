@@ -1,0 +1,17 @@
+.nav-text {
+    text-align: right;
+}
+
+.nav-text > .active {
+    border: 1px white solid;
+    border-radius: 10px;
+}
+
+.nav-activated {
+    border: 1px white solid;
+    border-radius: 10px;
+}
+
+.nav-link {
+    padding: 5px;
+}

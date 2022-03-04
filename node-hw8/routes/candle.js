@@ -13,6 +13,7 @@ router.get("/api/candle/hour/:symbol/:time", (req, res) => {
     var endtime = new Date(parseInt(req.params.time) * 1000);
     var begintime = new Date(endtime);
     begintime.setHours(begintime.getHours() - 6);
+    res.setHeader("Access-Control-Allow-Origin", "*");
     axios.get('https://finnhub.io/api/v1/stock/candle', {
         params: {
             token: token,
@@ -35,6 +36,7 @@ router.get("/api/candle/year/:symbol", (req, res) => {
     var endtime = new Date(Date.now());
     var begintime = new Date(endtime);
     begintime.setFullYear(begintime.getFullYear() - 2);
+    res.setHeader("Access-Control-Allow-Origin", "*");
     axios.get('https://finnhub.io/api/v1/stock/candle', {
         params: {
             token: token,

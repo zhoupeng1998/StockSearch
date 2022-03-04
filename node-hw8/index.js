@@ -17,12 +17,14 @@ app.get("/", (req, res) => {
     ts.setHours(ts.getHours() - 6);
     var last = new Date();
     last.setHours(ts.getHours() - 6);
+    res.setHeader("Access-Control-Allow-Origin", "*");
     res.send({str: String(ts), num: Number(ts), last: Number(last)});
 });
 
 // Profile
 app.get("/api/profile/:symbol", (req, res) => {
     var symbol = req.params.symbol.trim().toUpperCase();
+    res.setHeader("Access-Control-Allow-Origin", "*");
     axios.get('https://finnhub.io/api/v1/stock/profile2', {
         params: {
             token: token,
@@ -38,6 +40,7 @@ app.get("/api/profile/:symbol", (req, res) => {
 // Latest Data
 app.get("/api/latest/:symbol", (req, res) => {
     var symbol = req.params.symbol.trim().toUpperCase();
+    res.setHeader("Access-Control-Allow-Origin", "*");
     axios.get('https://finnhub.io/api/v1/quote', {
         params: {
             token: token,
@@ -53,6 +56,7 @@ app.get("/api/latest/:symbol", (req, res) => {
 // Autocomplete API
 app.get("/api/autocomplete/:symbol", (req, res) => {
     var symbol = req.params.symbol.trim().toUpperCase();
+    res.setHeader("Access-Control-Allow-Origin", "*");
     axios.get('https://finnhub.io/api/v1/search', {
         params: {
             token: token,
@@ -82,6 +86,7 @@ app.get("/api/news/:symbol", (req, res) => {
     var endtime = new Date(Date.now());
     var begintime = new Date(endtime);
     begintime.setDate(begintime.getDate() - 7);
+    res.setHeader("Access-Control-Allow-Origin", "*");
     axios.get('https://finnhub.io/api/v1/company-news', {
         params: {
             token: token,
@@ -99,6 +104,7 @@ app.get("/api/news/:symbol", (req, res) => {
 // Recommendation
 app.get("/api/recommendation/:symbol", (req, res) => {
     var symbol = req.params.symbol.trim().toUpperCase();
+    res.setHeader("Access-Control-Allow-Origin", "*");
     axios.get('https://finnhub.io/api/v1/stock/recommendation', {
         params: {
             token: token,
@@ -115,6 +121,7 @@ app.get("/api/recommendation/:symbol", (req, res) => {
 // TODO: question, clarification
 app.get("/api/social/:symbol", (req, res) => {
     var symbol = req.params.symbol.trim().toUpperCase();
+    res.setHeader("Access-Control-Allow-Origin", "*");
     axios.get('https://finnhub.io/api/v1/stock/social-sentiment', {
         params: {
             token: token,
@@ -130,6 +137,7 @@ app.get("/api/social/:symbol", (req, res) => {
 // Peers
 app.get("/api/peers/:symbol", (req, res) => {
     var symbol = req.params.symbol.trim().toUpperCase();
+    res.setHeader("Access-Control-Allow-Origin", "*");
     axios.get('https://finnhub.io/api/v1/stock/peers', {
         params: {
             token: token,
@@ -145,6 +153,7 @@ app.get("/api/peers/:symbol", (req, res) => {
 // Earnings
 app.get("/api/earnings/:symbol", (req, res) => {
     var symbol = req.params.symbol.trim().toUpperCase();
+    res.setHeader("Access-Control-Allow-Origin", "*");
     axios.get('https://finnhub.io/api/v1/stock/earnings', {
         params: {
             token: token,
