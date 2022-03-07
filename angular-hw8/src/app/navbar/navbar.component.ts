@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ContextService } from '../context.service';
 
 @Component({
@@ -10,7 +11,11 @@ export class NavbarComponent implements OnInit {
   isSearchTabFlag: boolean = true;
   validDataPresent: boolean = false;
 
-  constructor(private context: ContextService) { }
+  searchSymbol: String = "home";
+
+  constructor(
+    private router: Router,
+    private context: ContextService) { }
 
   ngOnInit(): void {
     this.context.validDataPresentSubject.subscribe(flag => {
@@ -18,6 +23,12 @@ export class NavbarComponent implements OnInit {
       if (this.isSearchTabFlag) {
         this.setSearchTab();
       }
+    });
+
+    // update search symbol upon user search
+    this.context.searchSymbolSubject.subscribe(symbol => {
+      console.log(symbol);
+      this.searchSymbol = symbol;
     })
   }
 

@@ -13,6 +13,8 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { SearchbarComponent } from './searchbar/searchbar.component';
 import { SearchComponent } from './search/search.component';
+import { WatchlistComponent } from './watchlist/watchlist.component';
+import { PortfolioComponent } from './portfolio/portfolio.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { SearchComponent } from './search/search.component';
     NavbarComponent,
     SearchbarComponent,
     SearchComponent,
+    WatchlistComponent,
+    PortfolioComponent,
   ],
   imports: [
     BrowserModule,
@@ -27,7 +31,9 @@ import { SearchComponent } from './search/search.component';
     HttpClientModule,
     RouterModule.forRoot([
       {path: '', redirectTo: 'search/home', pathMatch: 'full'},
-      {path: 'search/:symbol', component: SearchComponent}
+      {path: 'search/:symbol', component: SearchComponent},
+      {path: 'watchlist', component: WatchlistComponent},
+      {path: 'portfolio', component: PortfolioComponent}
     ]),
     ReactiveFormsModule,
     BrowserAnimationsModule,

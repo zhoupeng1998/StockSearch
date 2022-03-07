@@ -33,6 +33,7 @@ export class SearchbarComponent implements OnInit {
     this.loading = false;
     this.companies = [];
     
+    // fetch autocomplete result
     this.formCtrl.valueChanges.pipe(
       debounceTime(300),
     )
@@ -84,7 +85,9 @@ export class SearchbarComponent implements OnInit {
     this.context.setClearContentFlag(true);
     this.context.setSearchInput(""); // TODO: decide whether to keep this line
     this.context.setValidDataPresentFlag(false);
+    this.context.setSearchSymbol('home');
     this.notify.emit();
+    this.router.navigate(['/']);
   }
 
   onSubmit() {

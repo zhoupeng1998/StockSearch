@@ -19,11 +19,16 @@ export class SearchComponent implements OnInit {
     private router: Router,
     private context: ContextService) { }
 
+  // called only when switch from /watchlist or /portfolio
   ngOnInit(): void {
     const routeParams = this.route.snapshot.paramMap;
-    this.inputText = String(routeParams.get('symbol'));
+    //this.inputText = String(routeParams.get('symbol'));
+    this.inputText = this.context.getSearchSymbol();
     if (this.inputText !== 'home') {
-      console.log("load info in this condition");
+      this.context.setSearchInput(this.inputText);
+      this.handleSearch();
+    } else {
+
     }
   }
 
@@ -39,18 +44,24 @@ export class SearchComponent implements OnInit {
     }
   }
 
+  // TODO: handle input is "home"
   handleSearch() {
     this.inputText = this.context.getSearchInput();
     if (this.inputText == null || this.inputText.trim().length == 0) {
       this.validSymbolFlag = false;
+      this.invalidSymbolFlag = false;
       this.noInputFlag = true;
       this.context.setValidDataPresentFlag(false);
+      this.context.setSearchSymbol('home');
     } else {
       this.router.navigateByUrl('/search/'+this.inputText);
       this.noInputFlag = false;
       this.validSymbolFlag = true;
       // load info at this time
+
+      // load info success?
       this.context.setValidDataPresentFlag(true);
+      this.context.setSearchSymbol(this.inputText);
     }
   }
 

@@ -8,13 +8,13 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto">
         <li class="nav-text" id="nav-search">
-          <a class="nav-link" (click)="setSearchTab()" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">Search</a>
+          <a class="nav-link" (click)="setSearchTab()" [routerLink]="['/','search',searchSymbol]" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">Search</a>
         </li>
         <li class="nav-text" id="nav-watchlist">
-          <a class="nav-link" (click)="setWatchlistTab()" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">Watchlist</a>
+          <a class="nav-link" (click)="setWatchlistTab()" routerLink="/watchlist" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">Watchlist</a>
         </li>
         <li class="nav-text" id="nav-portfolio">
-          <a class="nav-link" (click)="setPortfolioTab()" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">Portfolio</a>
+          <a class="nav-link" (click)="setPortfolioTab()" routerLink="/portfolio" href="javascript:void(0)" data-bs-toggle="collapse" data-bs-target=".navbar-collapse.show">Portfolio</a>
         </li>
       </ul>
     </div>

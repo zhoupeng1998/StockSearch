@@ -5,7 +5,12 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class ContextService {
+  // user search input text, used to pass from search bar to search component
   searchInput: String = "";
+  // used to cache the current search route symbol
+  searchSymbol: String = "";
+  searchSymbolSubject: Subject<String> = new Subject();
+
   clearContentFlag: boolean = false;
 
   validDataPresentSubject: Subject<boolean> = new Subject();
@@ -13,6 +18,7 @@ export class ContextService {
 
   constructor() { 
     this.searchInput = "";
+    this.searchSymbol = 'home';
   }
 
   getSearchInput() {
@@ -21,6 +27,15 @@ export class ContextService {
 
   setSearchInput(text: String) {
     this.searchInput = text;
+  }
+
+  getSearchSymbol() {
+    return this.searchSymbol;
+  }
+
+  setSearchSymbol(text: String) {
+    this.searchSymbol = text;
+    this.searchSymbolSubject.next(this.searchSymbol);
   }
 
   getClearContentFlag() {
