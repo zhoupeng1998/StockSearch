@@ -8,16 +8,21 @@
     Please enter a valid ticker
 </ngb-alert>
 
+<mat-spinner id="load-spinner" *ngIf="loadingFlag"></mat-spinner>
+
+<div id="reserved-section"></div>
+
 <div class="search-display-info" id="search-display-info" *ngIf="validSymbolFlag">
     <div class="row search-info-top">
         <div class="col search-top-left">
-            <p>{{ inputText }} left works!</p>
+            <p>{{ testText1 }}</p>
         </div>
         <div class="col-1 search-top-mid">
             <p>[C]</p>
         </div>
         <div class="col search-top-right">
             <p>{{ inputText }} right works!</p>
+            <p>{{ testText2 }}</p>
         </div>
     </div>
     <div class="search-info-details">
@@ -34,6 +39,7 @@
                     </div>
                     <div class="col-md summary-chart">
                         Summary Chart
+                        <p>{{ testText3 }}</p>
                     </div>
                 </div>
             </mat-tab>

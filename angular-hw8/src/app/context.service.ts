@@ -11,10 +11,9 @@ export class ContextService {
   searchSymbol: String = "";
   searchSymbolSubject: Subject<String> = new Subject();
 
-  clearContentFlag: boolean = false;
-
   validDataPresentSubject: Subject<boolean> = new Subject();
   validDataPresent: boolean = false;
+  clearContentFlag: boolean = false;
 
   constructor() { 
     this.searchInput = "";
@@ -49,5 +48,9 @@ export class ContextService {
   setValidDataPresentFlag(flag: boolean) {
     this.validDataPresent = flag;
     this.validDataPresentSubject.next(this.validDataPresent);
+  }
+
+  getValidDataPresentFlag() {
+    return this.validDataPresent;
   }
 }

@@ -27,7 +27,6 @@ export class NavbarComponent implements OnInit {
 
     // update search symbol upon user search
     this.context.searchSymbolSubject.subscribe(symbol => {
-      console.log(symbol);
       this.searchSymbol = symbol;
     })
   }
