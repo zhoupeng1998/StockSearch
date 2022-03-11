@@ -10,41 +10,80 @@
 
 <mat-spinner id="load-spinner" *ngIf="loadingFlag"></mat-spinner>
 
-<div id="reserved-section"></div>
+<div #reservedElement id="reserved-section"></div>
 
-<div class="search-display-info" id="search-display-info" *ngIf="validSymbolFlag">
+<div #displayElement class="search-display-info" id="search-display-info" *ngIf="validSymbolFlag">
     <div class="row search-info-top">
         <div class="col search-top-left">
-            <p>{{ testText1 }}</p>
+            <div><span class="text-large">{{ ticker }}</span>&nbsp;<i class="bi bi-star"></i></div>
+            <div class="text-mid text-secondary">{{ name }}</div>
+            <div class="text-small">{{ exchange }}</div>
         </div>
-        <div class="col-1 search-top-mid">
-            <p>[C]</p>
+        <div class="col-1 search-top-mid" id="logo-div">
+            <img #logo id="logo-img" alt="" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" style="display: block; margin: auto;">
         </div>
         <div class="col search-top-right">
-            <p>{{ inputText }} right works!</p>
-            <p>{{ testText2 }}</p>
+            <div #searchPrice>
+                <div class="text-large">{{ c }}</div>
+                <div class="text-mid">
+                    <i *ngIf="!priceUp" class="bi bi-caret-down-fill"></i>
+                    <i *ngIf="priceUp" class="bi bi-caret-up-fill"></i>
+                    {{ d }}({{ dp }}%)
+                </div>
+            </div>
+            <div class="text-small">
+                {{ formatedQueryTime }}
+            </div>
         </div>
     </div>
+    <div #marketStatus class="text-small font-weight-bold" id="market-status"></div>
     <div class="search-info-details">
         <mat-tab-group mat-stretch-tabs>
             <mat-tab label="Summary">
                 <div class="row summary-content">
-                    <div class="col-md summary-left">
-                        <div class="summary-price">
-                            Summary Price
+                    <div class="col-md summary-left text-mob">
+                        <div class="summary-price" style="padding: 10px; width: 60%; margin: auto;">
+                            <table>
+                                <tr>
+                                    <th>High Price:</th>
+                                    <td>{{ h }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Low Price:</th>
+                                    <td>{{ l }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Open Price:</th>
+                                    <td>{{ o }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Prev. Close:</th>
+                                    <td>{{ pc }}</td>
+                                </tr>
+                            </table>
                         </div>
-                        <div class="summary-about">
-                            Summary About
+                        <div class="summary-about" style="padding: 10px;">
+                            <p style="text-align: center;"><strong><u>About the company</u></strong></p>
+                            <div style="margin-bottom: 4px;"><strong>IPO Start Date: </strong>{{ ipo }}</div>
+                            <div style="margin-bottom: 4px;"><strong>Industry: </strong>{{ industry }}</div>
+                            <div style="margin-bottom: 4px;"><strong>Webpage: </strong><a #weblink href="" target="_blank">{{ weburl }}</a></div>
+                            <div style="margin-bottom: 4px;"><strong>Company peers: </strong></div>
+                            <div #peerlist style="margin-bottom: 4px;"></div>
                         </div>
                     </div>
                     <div class="col-md summary-chart">
                         Summary Chart
-                        <p>{{ testText3 }}</p>
                     </div>
                 </div>
             </mat-tab>
-            <mat-tab label="Top News"> News Content </mat-tab>
-            <mat-tab label="Charts"> Charts Content </mat-tab>
+            <mat-tab label="Top News">
+                <p>{{ testText1 }}</p>
+                <p>{{ testText2 }}</p>
+                <p>{{ testText4 }}</p>
+            </mat-tab>
+            <mat-tab label="Charts">
+                <p>{{ testText3 }}</p>
+            </mat-tab>
             <mat-tab label="Insights">
                 <div class="insignts-sentiments">
                     Social Sentiments

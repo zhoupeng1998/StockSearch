@@ -1,10 +1,10 @@
 .search-info-top {
-    background-color: pink;
     margin: auto;
 }
 
 .search-top-mid {
-    background-color: chartreuse;
+    margin: 0;
+    padding: 0;
     min-width: 60px;
 }
 
@@ -16,16 +16,8 @@
     margin: auto;
 }
 
-.summary-left {
-    background-color: azure;
-}
-
 .summary-chart {
     background-color: aqua;
-}
-
-.summary-price {
-    background-color: bisque;
 }
 
 .insignts-sentiments {
@@ -41,4 +33,82 @@
 
 #load-spinner {
     margin: auto;
+}
+
+#market-status {
+    margin: auto;
+    text-align: center;
+}
+
+.text-large {
+    font-size: x-large;
+    font-weight: bold;
+}
+
+.text-small {
+    font-size: 14px;
+}
+
+#logo-div {
+    margin: auto;
+    padding: 0;
+}
+
+#logo-img {
+    display: block;
+    margin: auto;
+    height: 80px;
+    width: 80px;
+}
+
+@media (min-width: 769px) {
+    .text-large {
+        font-size: xx-large;
+    }
+
+    .text-mid {
+        font-size: 20px;
+    }
+
+    .text-small {
+        font-size: medium;
+    }
+
+    #logo-div {
+        height: 80px;
+        width: 80px;
+    }
+
+    #logo-img {
+        height: 80px;
+        width: 80px;
+    }
+}
+
+@media (max-width: 768px) {
+    .text-large {
+        font-size: x-large;
+    }
+
+    .text-mid {
+        font-size: medium;
+    }
+
+    .text-small {
+        font-size: small;
+    }
+
+    #logo-div {
+        height: 70px;
+        width: 70px;
+    }
+
+    #logo-img {
+        height: 70px;
+        width: 70px;
+    }
+
+    .text-mob {
+        font-size: small;
+    }
 }

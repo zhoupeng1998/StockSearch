@@ -51,10 +51,19 @@ export class DataService {
     var tnowNum = new Date(tnow);
     var url = "http://localhost/api/latest/" + this.context.getSearchSymbol();
     axios.get(url).then(data => {
+      if (data.data.d != null) {
+        data.data.c = data.data.c.toFixed(2);
+        data.data.d = data.data.d.toFixed(2);
+        data.data.dp = data.data.dp.toFixed(2);
+        data.data.h = data.data.h.toFixed(2);
+        data.data.l = data.data.l.toFixed(2);
+        data.data.o = data.data.o.toFixed(2);
+        data.data.pc = data.data.pc.toFixed(2);
+      }
       if (data.data.t != null && data.data.t != 0) {
         var tret = parseInt(data.data.t) * 1000;
         data.data.diff = tnow - tret;
-        if (tnow - tret < 60000) {
+        if (tnow - tret < 300000) {
           // handle market open (parseInt(tnowNum / 1000))
           data.data.marketopen = true;
           this.getSummaryChartData(Math.trunc(Number(tnowNum) / 1000));
