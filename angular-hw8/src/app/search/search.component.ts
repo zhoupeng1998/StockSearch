@@ -8,6 +8,7 @@ import * as Highcharts from 'highcharts';
 
 import { ContextService } from '../context.service';
 import { DataService } from '../data.service';
+import { NewsModalComponent } from '../news-modal/news-modal.component';
 
 @Component({
   selector: 'app-search',
@@ -289,6 +290,9 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
     this.name = data.name;
     this.exchange = data.exchange;
     this.logo.nativeElement.src = data.logo;
+    if (data.logo == null || data.logo == '') {
+      this.logo.nativeElement.src = 'data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=';
+    }
     this.ipo = data.ipo;
     this.industry = data.finnhubIndustry;
     this.weburl = data.weburl;
@@ -353,7 +357,16 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
       this.renderer.setProperty(newsText, 'innerHTML', data[i].headline);
       this.renderer.listen(newsCard, 'click', evt => {
         var nid = (<HTMLElement>evt.target!).getAttribute('newsId');
-        //console.log(this.newscache[Number(nid)]);
+        let newsData = this.newscache[Number(nid)];
+        let modalRef = this.modalService.open(NewsModalComponent);
+        let date = new Date(newsData.datetime * 1000);
+        console.log(date);
+        modalRef.componentInstance.source = newsData.source;
+        modalRef.componentInstance.date = moment(date).format('MMMM Do, YYYY');
+        modalRef.componentInstance.title = newsData.headline;
+        modalRef.componentInstance.description = newsData.summary;
+        modalRef.componentInstance.url = newsData.url;
+
       });
       this.renderer.appendChild(newsCard, newsImg);
       this.renderer.appendChild(newsCard, newsText);
@@ -364,6 +377,13 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
         this.renderer.addClass(rowDivider, 'w-100');
         this.renderer.appendChild(this.newslist.nativeElement, rowDivider);
       }
+    }
+    // add a dummy div if the number of news feed is odd
+    if (data.length % 2 != 0) {
+      let dummyElement = this.renderer.createElement('div');
+      this.renderer.addClass(dummyElement, 'col-md');
+      this.renderer.addClass(dummyElement, 'mt-3');
+      this.renderer.appendChild(this.newslist.nativeElement, dummyElement);
     }
   }
 

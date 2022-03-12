@@ -1,0 +1,30 @@
+<div class="modal-header">
+    <div style="width: 60%;">
+        <h4>{{ source }}</h4>
+        <h6 class="pl-2 text-secondary">{{ date }}</h6>
+    </div>
+    <button type="button" class="btn-close" style="display: block; float: right; align-items: top;" aria-label="Close" (click)="activeModal.dismiss('Cross click')"></button>
+</div>
+<div class="modal-body">
+    <h5>{{ title }}</h5>
+    <div>{{ description }}</div>
+    <div class="text-secondary" style="margin-top: 3px;">For more details click <a #url href="javascript:void(0)" target="_blank">here</a></div>
+</div>
+<div class="modal-body">
+    <div style="padding: 10px; border: 1px solid lightgray; border-radius: 4px;">
+        Share
+        <div>
+            <a #twitterhref
+                href="https://twitter.com/intent/tweet"
+                target="_blank">
+                <i class="bi bi-twitter share-icon h3" style="color: #00acee;"></i>
+            </a>
+            <a #fbhref
+                target="_blank" href="https://www.facebook.com/sharer/sharer.php" 
+                class="fb-xfbml-parse-ignore">
+                <i class="bi bi-facebook share-icon h3" style="color: #4267b2;"></i>
+            </a>
+        </div>
+
+    </div>
+</div>

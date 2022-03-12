@@ -16,6 +16,7 @@ import { SearchbarComponent } from './searchbar/searchbar.component';
 import { SearchComponent } from './search/search.component';
 import { WatchlistComponent } from './watchlist/watchlist.component';
 import { PortfolioComponent } from './portfolio/portfolio.component';
+import { NewsModalComponent } from './news-modal/news-modal.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { PortfolioComponent } from './portfolio/portfolio.component';
     SearchComponent,
     WatchlistComponent,
     PortfolioComponent,
+    NewsModalComponent,
   ],
   imports: [
     BrowserModule,
