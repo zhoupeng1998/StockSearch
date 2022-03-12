@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 import { MaterialModule } from '../material.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -40,7 +41,8 @@ import { PortfolioComponent } from './portfolio/portfolio.component';
     FormsModule,
     MatNativeDateModule,
     MaterialModule,
-    NgbModule
+    NgbModule,
+    HighchartsChartModule
   ],
   providers: [],
   bootstrap: [AppComponent]

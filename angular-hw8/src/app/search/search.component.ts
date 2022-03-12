@@ -1,7 +1,11 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, ChangeDetectorRef, Renderer2 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { interval, Subscription, timer } from 'rxjs';
 import * as moment from 'moment';
+import * as moment_timezone from 'moment-timezone';
+import * as Highcharts from 'highcharts';
+
 import { ContextService } from '../context.service';
 import { DataService } from '../data.service';
 
@@ -58,6 +62,20 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
   formatedQueryTime: String = "";
   @ViewChild('weblink') weblink!: ElementRef;
   @ViewChild('peerlist') peerlist!: ElementRef;
+  @ViewChild('newslist') newslist!: ElementRef;
+  newscache: any = [];
+  selectedNews: String = "";
+
+  // Highcharts
+  Highcharts: typeof Highcharts = Highcharts;
+  chartOptions: Highcharts.Options = {
+    series: [
+      {
+        data: [],
+        type: 'line'
+      }
+    ]
+  };
 
   intervalSubscription: Subscription = new Subscription();
 
@@ -66,6 +84,8 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
     private router: Router,
     private context: ContextService,
     private dataService: DataService,
+    private renderer: Renderer2,
+    private modalService: NgbModal,
     private cd: ChangeDetectorRef) { }
 
   // called only when switch from /watchlist or /portfolio
@@ -310,7 +330,41 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   presentNews() {
-    //var data = window.localStorage.getItem('news') || "";
+    var data = JSON.parse(window.localStorage.getItem('news') || "");
+    this.testText3 = JSON.stringify(data);
+    for (var i = 0; i < data.length; i++) {
+      this.newscache[i] = data[i];
+      let newsElement = this.renderer.createElement('div');
+      //let newsCard = new MatCardModule();
+      let newsCard = this.renderer.createElement('mat-card');
+      let newsImg = this.renderer.createElement('img');
+      let newsText = this.renderer.createElement('div');
+      this.renderer.addClass(newsElement, 'col-md');
+      this.renderer.addClass(newsElement, 'mt-3');
+      this.renderer.addClass(newsCard, 'mat-card');
+      this.renderer.addClass(newsCard, 'mat-focus-indicator');
+      this.renderer.addClass(newsImg, 'news-img');
+      this.renderer.addClass(newsText, 'news-text');
+      // NOTE: currently needs to set attribute to all child elements! find a better solution?
+      this.renderer.setAttribute(newsCard, 'newsId', String(i));
+      this.renderer.setAttribute(newsImg, 'newsId', String(i));
+      this.renderer.setAttribute(newsText, 'newsId', String(i));
+      this.renderer.setAttribute(newsImg, 'src', data[i].image);
+      this.renderer.setProperty(newsText, 'innerHTML', data[i].headline);
+      this.renderer.listen(newsCard, 'click', evt => {
+        var nid = (<HTMLElement>evt.target!).getAttribute('newsId');
+        //console.log(this.newscache[Number(nid)]);
+      });
+      this.renderer.appendChild(newsCard, newsImg);
+      this.renderer.appendChild(newsCard, newsText);
+      this.renderer.appendChild(newsElement, newsCard);
+      this.renderer.appendChild(this.newslist.nativeElement, newsElement);
+      if (i % 2 != 0) {
+        let rowDivider = this.renderer.createElement('div');
+        this.renderer.addClass(rowDivider, 'w-100');
+        this.renderer.appendChild(this.newslist.nativeElement, rowDivider);
+      }
+    }
   }
 
   presentRecommendation() {
@@ -346,8 +400,51 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   presentSummaryChart() {
-    //var data = window.localStorage.getItem('summaryChart') || "";
-    this.testText3 = window.localStorage.getItem('summaryChart') || "";
+    var data = JSON.parse(window.localStorage.getItem('summaryChart') || "");
+    var color = 'green';
+    if (Number(this.dp) < 0) {
+      color = 'red';
+    }
+    if (data.s != null && data.s == 'ok') {
+      for (var i = 0; i < data.t.length; i++) {
+        // TODO: fix timezone issue
+        data.t[i] = (data.t[i] - 28800) * 1000;
+      }
+    }
+    this.chartOptions = {
+      time: {
+        timezone: 'America/Los_Angeles'
+      },
+      title: {
+        text: `${this.ticker} Hourly Price Variation`
+      },
+      xAxis: {
+        type: 'datetime',
+        labels: {
+          enabled: true,
+          format: '{value:%H:%M}',
+        },
+        categories: data.t,
+        tickInterval: 10
+      },
+      yAxis: {
+        title: {
+          text: ''
+        },
+        opposite: true
+      },
+      series: [{
+        showInLegend: false,
+        data: data.c,
+        type: 'line',
+        name: 'Price',
+        marker: {
+          radius: 0,
+          lineWidth: 1,
+        },
+        color: color
+      }]
+    };
   }
 
   presentHistoryChart() {

@@ -72,14 +72,28 @@
                         </div>
                     </div>
                     <div class="col-md summary-chart">
-                        Summary Chart
+                        <highcharts-chart id="summary-highchart" 
+                            [Highcharts]="Highcharts"
+                            [options]="chartOptions"
+                        >
+                        </highcharts-chart>
                     </div>
                 </div>
             </mat-tab>
-            <mat-tab label="Top News">
-                <p>{{ testText1 }}</p>
-                <p>{{ testText2 }}</p>
-                <p>{{ testText4 }}</p>
+            <mat-tab label="Top News" >
+                <div #newslist class="row mt-3" style="margin: auto; margin-bottom: 2px;">
+                    <div class="col-md mt-3" hidden>
+                        <mat-card>
+                            hello
+                        </mat-card>
+                    </div>
+                    <div class="col-md mt-3" hidden>
+                        <mat-card>
+                            hello
+                        </mat-card>
+                    </div>
+                    <div class="w-100"></div>
+                </div>
             </mat-tab>
             <mat-tab label="Charts">
                 <p>{{ testText3 }}</p>
