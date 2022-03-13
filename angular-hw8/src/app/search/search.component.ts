@@ -65,11 +65,16 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('peerlist') peerlist!: ElementRef;
   @ViewChild('newslist') newslist!: ElementRef;
   newscache: any = [];
-  selectedNews: String = "";
+  redditTotalMentions: string = "";
+  redditPositiveMentions: string = "";
+  redditNegativeMentions: string = "";
+  twitterTotalMentions: string = "";
+  twitterPositiveMentions: string = "";
+  twitterNegativeMentions: string = "";
 
   // Highcharts
-  Highcharts: typeof Highcharts = Highcharts;
-  chartOptions: Highcharts.Options = {
+  highcharts: typeof Highcharts = Highcharts;
+  summaryChartOptions: Highcharts.Options = {
     series: [
       {
         data: [],
@@ -77,6 +82,67 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     ]
   };
+  recommendationChartOptions: Highcharts.Options = {
+    chart: {
+      type: 'column'
+    },
+    plotOptions: {
+      column: {
+        stacking: 'normal'
+      }
+    },
+    series: [
+      {
+        type: 'column',
+        name: 'Strong Buy',
+        data: [],
+        color: '#18632f'
+      },
+      {
+        type: 'column',
+        name: 'Buy',
+        data: [],
+        color: '#19b049'
+      },
+      {
+        type: 'column',
+        name: 'Hold',
+        data: [],
+        color: '#af7f1b'
+      },
+      {
+        type: 'column',
+        name: 'Sell',
+        data: [],
+        color: '#f15050'
+      },
+      {
+        type: 'column',
+        name: 'Strong Sell',
+        data: [],
+        color: '#742c2e'
+      },
+    ]
+  }
+  earningsChartOptions: Highcharts.Options = {
+    title: {
+      text: "Historical EPS Surprises"
+    },
+    tooltip: {
+      shared: true,
+    },
+    series: [
+      {
+        data: [],
+        type: 'spline'
+      },
+      {
+        data: [],
+        type: 'spline'
+      }
+    ]
+  };
+  
 
   intervalSubscription: Subscription = new Subscription();
 
@@ -388,11 +454,95 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   presentRecommendation() {
-    //var data = window.localStorage.getItem('recommendation') || "";
+    var data = JSON.parse(window.localStorage.getItem('recommendation') || "");
+    var xCategories = [];
+    var xStrongBuy = [];
+    var xBuy = [];
+    var xHold = [];
+    var xSell = [];
+    var xStrongSell = [];
+    for (var i = 0; i < data.length; i++) {
+      xCategories.push(data[i].period);
+      xStrongBuy.push(data[i].strongBuy);
+      xBuy.push(data[i].buy);
+      xHold.push(data[i].hold);
+      xSell.push(data[i].sell);
+      xStrongSell.push(data[i].strongSell);
+    }
+    this.recommendationChartOptions = {
+      title: {
+        text: "Recommendation Trends"
+      },
+      chart: {
+        type: 'column'
+      },
+      xAxis: {
+        categories: xCategories
+      },
+      yAxis: {
+        min: 0,
+        title: {
+          text: '#Analysis'
+        },
+        stackLabels: {
+          enabled: false,
+          style: {
+            fontWeight: 'bold'
+          }
+        }
+      },
+      plotOptions: {
+        column: {
+          stacking: 'normal',
+          dataLabels: {
+            enabled: true
+          }
+        }
+      },
+      series: [
+        {
+          type: 'column',
+          name: 'Strong Buy',
+          data: xStrongBuy,
+          color: '#18632f'
+        },
+        {
+          type: 'column',
+          name: 'Buy',
+          data: xBuy,
+          color: '#19b049'
+        },
+        {
+          type: 'column',
+          name: 'Hold',
+          data: xHold,
+          color: '#af7f1b'
+        },
+        {
+          type: 'column',
+          name: 'Sell',
+          data: xSell,
+          color: '#f15050'
+        },
+        {
+          type: 'column',
+          name: 'Strong Sell',
+          data: xStrongSell,
+          color: '#742c2e'
+        },
+      ]
+    };
+    
   }
 
   presentSocialSentiment() {
-    //var data = window.localStorage.getItem('social') || "";
+    var data = JSON.parse(window.localStorage.getItem('social') || "");
+    this.redditTotalMentions = String(data.reddit.mention);
+    this.redditPositiveMentions = String(data.reddit.positiveMention);
+    this.redditNegativeMentions = String(data.reddit.negativeMention);
+    this.twitterTotalMentions = String(data.twitter.mention);
+    this.twitterPositiveMentions = String(data.twitter.positiveMention);
+    this.twitterNegativeMentions = String(data.twitter.negativeMention);
   }
 
   presentPeers() {
@@ -416,7 +566,43 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   presentEarnings() {
-    //var data = window.localStorage.getItem('earnings') || "";
+    var data = JSON.parse(window.localStorage.getItem('earnings') || "");
+    var xCategories = [];
+    var xActual = [];
+    var xEstimate = [];
+    for (var i = 0; i < data.length; i++) {
+      xCategories.push(data[i].period + "<br/>Surprise: " + String(data[i].surprise));
+      xActual.push(data[i].actual);
+      xEstimate.push(data[i].estimate);
+    }
+    this.earningsChartOptions = {
+      title: {
+        text: "Historical EPS Surprises"
+      },
+      xAxis: {
+        categories: xCategories
+      },
+      yAxis: {
+        title: {
+          text: 'Quantity EPS'
+        },
+      },
+      tooltip: {
+        shared: true,
+      },
+      series: [
+        {
+          data: xActual,
+          name: 'Actual',
+          type: 'spline'
+        },
+        {
+          data: xEstimate,
+          name: 'Estimate',
+          type: 'spline'
+        }
+      ]
+    };
   }
 
   presentSummaryChart() {
@@ -431,7 +617,7 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
         data.t[i] = (data.t[i] - 28800) * 1000;
       }
     }
-    this.chartOptions = {
+    this.summaryChartOptions = {
       time: {
         timezone: 'America/Los_Angeles'
       },

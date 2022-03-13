@@ -72,9 +72,9 @@
                         </div>
                     </div>
                     <div class="col-md summary-chart">
-                        <highcharts-chart id="summary-highchart" 
-                            [Highcharts]="Highcharts"
-                            [options]="chartOptions"
+                        <highcharts-chart class="search-highchart" id="summary-highchart" 
+                            [Highcharts]="highcharts"
+                            [options]="summaryChartOptions"
                         >
                         </highcharts-chart>
                     </div>
@@ -100,14 +100,47 @@
             </mat-tab>
             <mat-tab label="Insights">
                 <div class="insignts-sentiments">
-                    Social Sentiments
+                    <div class="text-mid text-center mt-2 mb-2"><strong>Social Sentiments</strong></div>
+                    <table class="table table-bordered text-center text-small" style="background-color: white;">
+                        <tbody>
+                            <tr class="table-active">
+                                <td class="font-weight-bold"><strong>Company name</strong></td>
+                                <td><strong>Reddit</strong></td>
+                                <td><strong>Twitter</strong></td>
+                            </tr>
+                            <tr>
+                                <td class="table-active"><strong>Total Mentions</strong></td>
+                                <td>{{ redditTotalMentions }}</td>
+                                <td>{{ twitterTotalMentions }}</td>
+                            </tr>
+                            <tr>
+                                <td class="table-active"><strong>Positive Mentions</strong></td>
+                                <td>{{ redditPositiveMentions }}</td>
+                                <td>{{ twitterPositiveMentions }}</td>
+                            </tr>
+                            <tr>
+                                <td class="table-active"><strong>Negative Mentions</strong></td>
+                                <td>{{ redditNegativeMentions }}</td>
+                                <td>{{ twitterNegativeMentions }}</td>
+                            </tr>
+                        </tbody>
+
+                    </table>
                 </div>
                 <div class="row insights-lower">
                     <div class="col-md insignts-lower-left">
-                        Recommendation Trends
+                        <highcharts-chart class="search-highchart insights-highchart" id="insights-chart"
+                            [Highcharts]="highcharts"
+                            [options]="recommendationChartOptions"
+                        >
+                        </highcharts-chart>
                     </div>
                     <div class="col-md insignts-lower-right">
-                        Historical EPS Surprises
+                        <highcharts-chart class="search-highchart insights-highchart"
+                            [Highcharts]="highcharts"
+                            [options]="earningsChartOptions"
+                        >
+                        </highcharts-chart>
                     </div>
                 </div>
             </mat-tab>

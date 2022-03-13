@@ -8,6 +8,7 @@ const token = process.env.API_KEY;
 const candle_router = require('./routes/candle');
 require('./utils/dateformat');
 const filternews = require('./utils/newsfilter');
+const formatSocialSentiment = require('./utils/socialsentimentformatter');
 
 app.listen(5000);
 
@@ -118,17 +119,17 @@ app.get("/api/recommendation/:symbol", (req, res) => {
 });
 
 // Social Sentiment
-// TODO: question, clarification
 app.get("/api/social/:symbol", (req, res) => {
     var symbol = req.params.symbol.trim().toUpperCase();
     res.setHeader("Access-Control-Allow-Origin", "*");
     axios.get('https://finnhub.io/api/v1/stock/social-sentiment', {
         params: {
             token: token,
-            symbol: symbol
+            symbol: symbol,
+            from: '2022-01-01'
         }
     }).then(data => {
-        res.send(data.data);
+        res.send(formatSocialSentiment(data.data));
     }).catch(err => {
         res.send({error: err});
     });
@@ -175,7 +176,7 @@ app.get("/api/earnings/:symbol", (req, res) => {
                 element.surprisePercent = 0 
             }
         });
-        res.send(data.data);
+        res.send(result);
     }).catch(err => {
         res.send({error: err});
     });
