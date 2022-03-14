@@ -11,6 +11,9 @@ import { DataService } from '../data.service';
 import { NewsModalComponent } from '../news-modal/news-modal.component';
 import { WatchlistService } from '../watchlist.service';
 
+window.moment = moment;
+moment_timezone();
+
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
@@ -34,6 +37,8 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
   earningsLoadedFlag: boolean = false;
   summaryChartLoadedFlag: boolean = false;
   historyChartLoadedFlag: boolean = false;
+
+  historyChartReadyFlag: boolean = false;
 
   // watchlist & portfolio flags
   watchlistActivateFlag: boolean = false;
@@ -161,7 +166,13 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
     private watchlistService: WatchlistService,
     private renderer: Renderer2,
     private modalService: NgbModal,
-    private cd: ChangeDetectorRef) { }
+    private cd: ChangeDetectorRef) { 
+      this.highcharts.setOptions({
+        time: {
+          timezone: 'America/Los_Angeles'
+        }
+      });
+    }
 
   // called only when switch from /watchlist or /portfolio
   ngOnInit(): void {
@@ -302,6 +313,7 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
       this.noInputFlag = false;
       this.validSymbolFlag = false;
       this.invalidSymbolFlag = false;
+      this.resetDataLoadFlags();
       this.resetAlertFlags();
       this.context.setClearContentFlag(false);
       //this.context.setValidDataPresentFlag(false);
@@ -413,7 +425,6 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
 
   presentNews() {
     var data = JSON.parse(window.localStorage.getItem('news') || "");
-    this.testText3 = JSON.stringify(data);
     for (var i = 0; i < data.length; i++) {
       this.newscache[i] = data[i];
       let newsElement = this.renderer.createElement('div');
@@ -443,7 +454,6 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
         modalRef.componentInstance.title = newsData.headline;
         modalRef.componentInstance.description = newsData.summary;
         modalRef.componentInstance.url = newsData.url;
-
       });
       this.renderer.appendChild(newsCard, newsImg);
       this.renderer.appendChild(newsCard, newsText);
@@ -617,7 +627,7 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   presentSummaryChart() {
-    var data = JSON.parse(window.localStorage.getItem('summaryChart') || "");
+    var data = JSON.parse(window.localStorage.getItem('summaryChart') || "{}");
     var color = 'green';
     if (Number(this.dp) < 0) {
       color = 'red';
@@ -625,13 +635,10 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
     if (data.s != null && data.s == 'ok') {
       for (var i = 0; i < data.t.length; i++) {
         // TODO: fix timezone issue
-        data.t[i] = (data.t[i] - 28800) * 1000;
+        data.t[i] = data.t[i] * 1000;
       }
     }
     this.summaryChartOptions = {
-      time: {
-        timezone: 'America/Los_Angeles'
-      },
       title: {
         text: `${this.ticker} Hourly Price Variation`
       },
@@ -665,7 +672,17 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   presentHistoryChart() {
-    //var data = window.localStorage.getItem('historyChart') || "";
+    var ohlc = [];
+    var volume = [];
+    var data = JSON.parse(window.localStorage.getItem('historyChart') || "{}");
+    for (var i = 0; i < data.t.length; i++) {
+      ohlc.push([data.t[i]*1000, data.o[i], data.h[i], data.l[i], data.c[i]]);
+      volume.push([data.t[i]*1000, data.v[i]]);
+    }
+    this.context.ticker = this.ticker;
+    this.context.ohlc = ohlc;
+    this.context.volume = volume;
+    setTimeout(() => { this.historyChartReadyFlag = true; });
   }
 
   // data load flags checking
@@ -694,6 +711,7 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
     this.earningsLoadedFlag = false;
     this.summaryChartLoadedFlag = false;
     this.historyChartLoadedFlag = false;
+    this.historyChartReadyFlag = false;
   }
 
   // watchlist & portfolio

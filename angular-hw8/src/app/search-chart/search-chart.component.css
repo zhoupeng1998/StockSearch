@@ -1,0 +1,17 @@
+.history-highchart {
+    height: 600px;
+    display: block;
+    margin: auto;
+}
+
+@media (min-width: 769px) {
+    .history-highchart {
+        width: 1250px;
+    }
+}
+
+@media (max-width: 768px) {
+    .history-highchart {
+        max-width: 100%;
+    }
+}

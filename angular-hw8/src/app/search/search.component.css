@@ -64,6 +64,13 @@ ngb-alert {
     display: block;
     height: 400px;
     margin: auto;
+    max-width: 100%;
+}
+
+.history-highchart {
+    height: 600px;
+    display: block;
+    margin: auto;
 }
 
 /*
@@ -112,6 +119,10 @@ ngb-alert {
 
     .insights-highchart {
         width: 600px;
+    }
+
+    .history-highchart {
+        max-width: 1250px;
     }
 }
 

@@ -1,10 +1,10 @@
 <app-searchbar (notify)="onNotify()"></app-searchbar>
 
-<ngb-alert id="invalid-ticker-alert" *ngIf="invalidSymbolFlag" [dismissible]="false">
+<ngb-alert id="invalid-ticker-alert" *ngIf="invalidSymbolFlag" type="alert-danger" class="alert alert-danger" [dismissible]="false">
     No data found. Please enter a valid ticker
 </ngb-alert>
 
-<ngb-alert id="no-input-alert" *ngIf="noInputFlag" (closed)="closeNoInputAlert()">
+<ngb-alert id="no-input-alert" *ngIf="noInputFlag" type="alert-danger" class="alert alert-danger" (closed)="closeNoInputAlert()">
     Please enter a valid ticker
 </ngb-alert>
 
@@ -83,7 +83,7 @@
                         </div>
                     </div>
                     <div class="col-md summary-chart">
-                        <highcharts-chart class="search-highchart" id="summary-highchart" 
+                        <highcharts-chart class="search-highchart insights-highchart" id="summary-highchart" 
                             [Highcharts]="highcharts"
                             [options]="summaryChartOptions"
                         >
@@ -107,7 +107,9 @@
                 </div>
             </mat-tab>
             <mat-tab label="Charts">
-                <p>{{ testText3 }}</p>
+                <div *ngIf="historyChartReadyFlag">
+                    <app-search-chart></app-search-chart>
+                </div>
             </mat-tab>
             <mat-tab label="Insights">
                 <div class="insignts-sentiments">

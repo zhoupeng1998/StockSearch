@@ -20,6 +20,11 @@ export class ContextService {
   cardNavbarSwitchFlagSubject: Subject<boolean> = new Subject();
   cardNavbarSwitchFlag: boolean = false;
 
+  // for charts use
+  ticker: string = '';
+  ohlc!: number[][];
+  volume!: number[][];
+
   constructor() { 
     this.searchInput = "";
     this.searchSymbol = 'home';
