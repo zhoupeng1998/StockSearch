@@ -9,6 +9,7 @@ import * as Highcharts from 'highcharts';
 import { ContextService } from '../context.service';
 import { DataService } from '../data.service';
 import { NewsModalComponent } from '../news-modal/news-modal.component';
+import { WatchlistService } from '../watchlist.service';
 
 @Component({
   selector: 'app-search',
@@ -34,15 +35,21 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
   summaryChartLoadedFlag: boolean = false;
   historyChartLoadedFlag: boolean = false;
 
+  // watchlist & portfolio flags
+  watchlistActivateFlag: boolean = false;
+  watchlistAddFlag: boolean = false;
+  watchlistRemoveFlag: boolean = false;
+  buyAlertFlag: boolean = false;
+  sellAlertFlag: boolean = false;
+
   // data element
   @ViewChild('reservedElement', {static: false}) reservedElement!: ElementRef;
   @ViewChild('displayElement', {static: false}) displayElement!: ElementRef;
-  testText1: String = "";
-  testText2: String = "";
+  latestObject: Object = {};
   testText3: String = "";
   testText4: String = "";
-  ticker: String = "";
-  name: String = "";
+  ticker: string = "";
+  name: string = "";
   exchange: String = "";
   ipo: String = "";
   industry: String = "";
@@ -151,6 +158,7 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
     private router: Router,
     private context: ContextService,
     private dataService: DataService,
+    private watchlistService: WatchlistService,
     private renderer: Renderer2,
     private modalService: NgbModal,
     private cd: ChangeDetectorRef) { }
@@ -206,7 +214,6 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
     // subscribe for data load completion from DataService, call present functions
     this.dataService.profileDataReadySubject.subscribe(success => {
       if (success) {
-        // TODO: set true after all of profile, latest, summary chart are ready
         this.profileLoadedFlag = true;
         //this.context.setValidDataPresentFlag(true);
         //this.presentProfile();
@@ -274,8 +281,9 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
     // TODO: try to distinguish user-input-url search and back-to-home routing here.
     if (routeParams.get('symbol') != null) {
       this.inputText = String(routeParams.get('symbol'));
-      if (this.inputText != this.context.getSearchSymbol()) {
+      if (this.inputText != this.context.getSearchSymbol() || this.context.cardSwitchFlag) {
         // should reload here!
+        this.context.cardSwitchFlag = false;
         this.context.setSearchInput(this.inputText.trim().toUpperCase());
         this.handleSearch();
       }
@@ -294,6 +302,7 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
       this.noInputFlag = false;
       this.validSymbolFlag = false;
       this.invalidSymbolFlag = false;
+      this.resetAlertFlags();
       this.context.setClearContentFlag(false);
       //this.context.setValidDataPresentFlag(false);
     } else {
@@ -304,6 +313,7 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
   handleSearch() {
     this.resetDataLoadFlags();
     this.inputText = this.context.getSearchInput();
+    this.resetAlertFlags();
     if (this.inputText == null || this.inputText.trim().length == 0) {
       this.validSymbolFlag = false;
       this.invalidSymbolFlag = false;
@@ -316,7 +326,9 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
       var realInputText = this.inputText.trim().toUpperCase();
       this.context.setSearchSymbol(realInputText);
       
+      // TODO: validate input (no HK/Japanese market!)
       // start loading info
+      this.resetAlertFlags();
       this.loadingFlag = true;
       this.validSymbolFlag = false;
       this.invalidSymbolFlag = false;
@@ -350,9 +362,9 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
 
   // present data fetched from API
   presentProfile() {
-    this.testText1 = window.localStorage.getItem('profile') || "";
     var data = JSON.parse(window.localStorage.getItem('profile') || "");
     this.ticker = data.ticker;
+    this.watchlistActivateFlag = this.watchlistService.isTickerInWatchlist(this.ticker);
     this.name = data.name;
     this.exchange = data.exchange;
     this.logo.nativeElement.src = data.logo;
@@ -366,8 +378,8 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   presentLatest() {
-    this.testText2 = window.localStorage.getItem('latest') || "";
     var data = JSON.parse(window.localStorage.getItem('latest') || "");
+    this.latestObject = data;
     this.c = String(data.c);
     this.d = String(data.d);
     this.dp = String(data.dp);
@@ -426,7 +438,6 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
         let newsData = this.newscache[Number(nid)];
         let modalRef = this.modalService.open(NewsModalComponent);
         let date = new Date(newsData.datetime * 1000);
-        console.log(date);
         modalRef.componentInstance.source = newsData.source;
         modalRef.componentInstance.date = moment(date).format('MMMM Do, YYYY');
         modalRef.componentInstance.title = newsData.headline;
@@ -683,5 +694,35 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
     this.earningsLoadedFlag = false;
     this.summaryChartLoadedFlag = false;
     this.historyChartLoadedFlag = false;
+  }
+
+  // watchlist & portfolio
+  setWatchlist() {
+    this.watchlistActivateFlag = true;
+    this.watchlistRemoveFlag = false;
+    this.watchlistAddFlag = true;
+    this.watchlistService.addToWatchlist(this.context.getSearchSymbol(), this.ticker, this.name, this.latestObject);
+    const tsrc = timer(5000);
+    tsrc.subscribe(() => {
+      this.watchlistAddFlag = false;
+    });
+  }
+
+  unsetWatchlist() {
+    this.watchlistActivateFlag = false;
+    this.watchlistAddFlag = false;
+    this.watchlistRemoveFlag = true;
+    this.watchlistService.removeFromWatchlist(this.ticker);
+    const tsrc = timer(5000);
+    tsrc.subscribe(() => {
+      this.watchlistRemoveFlag = false;
+    });
+  }
+
+  resetAlertFlags() {
+    this.watchlistAddFlag = false;
+    this.watchlistRemoveFlag = false;
+    this.buyAlertFlag = false;
+    this.sellAlertFlag = false;
   }
 }

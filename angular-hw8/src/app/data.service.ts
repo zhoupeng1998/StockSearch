@@ -18,6 +18,8 @@ export class DataService {
   earningsDataReadySubject: Subject<boolean> = new Subject();
   summaryChartReadySubject: Subject<boolean> = new Subject();
   historyChartReadySubject: Subject<boolean> = new Subject();
+  // for watchlist & portfolio
+  latestDataBySymbolReadySubject: Subject<string> = new Subject();
 
   constructor(
     private http: HttpClient,
@@ -155,6 +157,26 @@ export class DataService {
     }).catch(() => {
       window.localStorage.setItem('historyChart', "");
       this.historyChartReadySubject.next(false);
+    });
+  }
+
+  // for watchlist & portfolio ONLY
+  getLatestDataBySymbol(symbol: string) {
+    var url = "http://localhost/api/latest/" + symbol;
+    axios.get(url).then(data => {
+      if (data.data.d != null) {
+        data.data.c = data.data.c.toFixed(2);
+        data.data.d = data.data.d.toFixed(2);
+        data.data.dp = data.data.dp.toFixed(2);
+        data.data.h = data.data.h.toFixed(2);
+        data.data.l = data.data.l.toFixed(2);
+        data.data.o = data.data.o.toFixed(2);
+        data.data.pc = data.data.pc.toFixed(2);
+      }
+      data.data.symbol = symbol;
+      this.latestDataBySymbolReadySubject.next(JSON.stringify(data.data));
+    }).catch(() => {
+        this.latestDataBySymbolReadySubject.next("");
     });
   }
 }

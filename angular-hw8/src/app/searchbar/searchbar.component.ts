@@ -86,6 +86,8 @@ export class SearchbarComponent implements OnInit {
     this.context.setSearchInput(""); // TODO: decide whether to keep this line
     this.context.setValidDataPresentFlag(false);
     this.context.setSearchSymbol('home');
+    this.context.cardSwitchFlag = false;
+    this.context.cardNavbarSwitchFlag = false;
     this.notify.emit();
     this.router.navigate(['/']);
   }

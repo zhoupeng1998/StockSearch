@@ -28,7 +28,14 @@ export class NavbarComponent implements OnInit {
     // update search symbol upon user search
     this.context.searchSymbolSubject.subscribe(symbol => {
       this.searchSymbol = symbol;
-    })
+    });
+
+    this.context.cardNavbarSwitchFlagSubject.subscribe(flag => {
+      if (flag) {
+        this.setSearchTab();
+      }
+      this.context.cardNavbarSwitchFlag = false;
+    });
   }
 
   setSearchTab() {

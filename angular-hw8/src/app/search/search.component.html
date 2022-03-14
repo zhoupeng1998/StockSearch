@@ -8,6 +8,14 @@
     Please enter a valid ticker
 </ngb-alert>
 
+<ngb-alert *ngIf="watchlistAddFlag" type="alert-success" class="alert alert-success" (closed)="watchlistAddFlag = false">
+    {{ ticker }} added to Watchlist.
+</ngb-alert>
+
+<ngb-alert *ngIf="watchlistRemoveFlag" type="alert-danger" class="alert alert-danger" (closed)="watchlistRemoveFlag = false">
+    {{ ticker }} removed from Watchlist.
+</ngb-alert>
+
 <mat-spinner id="load-spinner" *ngIf="loadingFlag"></mat-spinner>
 
 <div #reservedElement id="reserved-section"></div>
@@ -15,7 +23,10 @@
 <div #displayElement class="search-display-info" id="search-display-info" *ngIf="validSymbolFlag">
     <div class="row search-info-top">
         <div class="col search-top-left">
-            <div><span class="text-large">{{ ticker }}</span>&nbsp;<i class="bi bi-star"></i></div>
+            <div><span class="text-large">{{ ticker }}</span>&nbsp;
+                <i *ngIf="!watchlistActivateFlag" (click)="setWatchlist()" class="bi bi-star text-mid"></i>
+                <i *ngIf="watchlistActivateFlag" (click)="unsetWatchlist()" class="bi bi-star-fill text-mid" style="color: gold;"></i>
+            </div>
             <div class="text-mid text-secondary">{{ name }}</div>
             <div class="text-small">{{ exchange }}</div>
         </div>

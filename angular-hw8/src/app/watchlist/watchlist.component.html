@@ -1,1 +1,29 @@
-<p>watchlist works!</p>
+<p class="text-large">My Watchlist</p>
+
+<ngb-alert *ngIf="watchlistEmptyAlert" [dismissible]="false" style="text-align: center;">
+    Currently you don't have any stock in your watchlist.
+</ngb-alert>
+
+<div *ngFor="let watchlistItem of watchlist" style="margin-bottom: 10px;">
+    <div class="card" (click)="onCardClick(watchlistItem.symbol)">
+        <div class="card-body">
+            <div class="text-mid">
+                <span>{{ watchlistItem.ticker }}</span>
+                <span class="{{watchlistItem.color}}" style="float: right; text-align: right;">
+                    {{ watchlistItem.latest.c }}
+                </span>
+            </div>
+            <div class="text-small">
+                <span>{{ watchlistItem.name }}</span>
+                <span class="{{watchlistItem.color}}" style="float: right; text-align: right;">
+                    <i *ngIf="watchlistItem.color == 'text-danger'" class="bi bi-caret-down-fill"></i>
+                    <i *ngIf="watchlistItem.color != 'text-danger'" class="bi bi-caret-up-fill"></i>
+                    {{ watchlistItem.latest.d }}({{ watchlistItem.latest.dp }}%)
+                </span>
+            </div>
+        </div>
+        <div style="position: absolute; padding-right: 1px; float: right; text-align: right; width: 100%;">
+            <i class="bi bi-x" (click)="onRemoveButtonClick(watchlistItem.ticker)"></i>
+        </div>
+    </div>
+</div>

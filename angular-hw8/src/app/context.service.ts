@@ -8,12 +8,17 @@ export class ContextService {
   // user search input text, used to pass from search bar to search component
   searchInput: String = "";
   // used to cache the current search route symbol
-  searchSymbol: String = "";
+  searchSymbol: string = "";
   searchSymbolSubject: Subject<String> = new Subject();
 
   validDataPresentSubject: Subject<boolean> = new Subject();
   validDataPresent: boolean = false;
   clearContentFlag: boolean = false;
+
+  cardSwitchFlagSubject: Subject<boolean> = new Subject();
+  cardSwitchFlag: boolean = false;
+  cardNavbarSwitchFlagSubject: Subject<boolean> = new Subject();
+  cardNavbarSwitchFlag: boolean = false;
 
   constructor() { 
     this.searchInput = "";
@@ -32,7 +37,7 @@ export class ContextService {
     return this.searchSymbol;
   }
 
-  setSearchSymbol(text: String) {
+  setSearchSymbol(text: string) {
     this.searchSymbol = text;
     this.searchSymbolSubject.next(this.searchSymbol);
   }
@@ -52,5 +57,18 @@ export class ContextService {
 
   getValidDataPresentFlag() {
     return this.validDataPresent;
+  }
+
+  setCardSwitchFlag(flag: boolean) {
+    this.cardSwitchFlag = flag;
+    if (flag) {
+      this.setValidDataPresentFlag(false);
+    }
+    this.cardSwitchFlagSubject.next(this.cardSwitchFlag);
+  }
+
+  setNavbarCardSwitchFlag(flag: boolean) {
+    this.cardNavbarSwitchFlag = flag;
+    this.cardNavbarSwitchFlagSubject.next(this.cardSwitchFlag);
   }
 }
