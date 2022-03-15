@@ -20,6 +20,10 @@ export class ContextService {
   cardNavbarSwitchFlagSubject: Subject<boolean> = new Subject();
   cardNavbarSwitchFlag: boolean = false;
 
+  // for refresh at watchlist/portfolio page
+  setWatchlistTabSubject: Subject<boolean> = new Subject();
+  setPortfolioTabSubject: Subject<boolean> = new Subject();
+
   // for charts use
   ticker: string = '';
   ohlc!: number[][];
@@ -75,5 +79,14 @@ export class ContextService {
   setNavbarCardSwitchFlag(flag: boolean) {
     this.cardNavbarSwitchFlag = flag;
     this.cardNavbarSwitchFlagSubject.next(this.cardSwitchFlag);
+  }
+
+  // for refresh at watchlist/portfolio page
+  setWatchlistTab() {
+    this.setWatchlistTabSubject.next(true);
+  }
+
+  setPortfolioTab() {
+    this.setPortfolioTabSubject.next(true);
   }
 }

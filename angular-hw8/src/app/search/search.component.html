@@ -16,6 +16,14 @@
     {{ ticker }} removed from Watchlist.
 </ngb-alert>
 
+<ngb-alert *ngIf="buyAlertFlag" type="alert-success" class="alert alert-success" (closed)="buyAlertFlag = false">
+    {{ ticker }} bought successfully.
+</ngb-alert>
+
+<ngb-alert *ngIf="sellAlertFlag" type="alert-danger" class="alert alert-danger" (closed)="sellAlertFlag = false">
+    {{ ticker }} sold successfully.
+</ngb-alert>
+
 <mat-spinner id="load-spinner" *ngIf="loadingFlag"></mat-spinner>
 
 <div #reservedElement id="reserved-section"></div>
@@ -29,6 +37,10 @@
             </div>
             <div class="text-mid text-secondary">{{ name }}</div>
             <div class="text-small">{{ exchange }}</div>
+            <div>
+                <button type="button" class="btn btn-success" (click)="startBuyTransaction()">Buy</button>&nbsp;
+                <button *ngIf="stockHoldingFlag" type="button" class="btn btn-danger" (click)="startSellTransaction()">Sell</button>
+            </div>
         </div>
         <div class="col-1 search-top-mid" id="logo-div">
             <img #logo id="logo-img" alt="" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" style="display: block; margin: auto;">

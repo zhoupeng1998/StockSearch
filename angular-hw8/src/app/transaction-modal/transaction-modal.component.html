@@ -1,0 +1,23 @@
+<div class="modal-header">
+    <span>{{ ticker }}</span>
+    <span><i class="bi bi-x" (click)="activeModal.close('false')"></i></span>
+</div>
+<div class="modal-body">
+    <div>Current Price: {{ price }}</div>
+    <div>Money in Wallet: ${{ balance }}</div>
+    <div class="form-group">
+        <label class="control-label">Quantity &nbsp;</label>
+        <input (change)="onValueChange()" (input)="onValueChange()" [(ngModel)]="quantity"
+            type="number" class="form-control transaction-input" min="0" step="1">  
+    </div>
+    <div *ngIf="fractionalAlert" class="text-danger">No fractional shares!</div>
+    <div *ngIf="sufficientBuyAlert" class="text-danger">Not enough money in wallet!</div>
+    <div *ngIf="sufficientSellAlert" class="text-danger">You cannot sell the stocks that you don't have!</div>
+</div>
+<div class="modal-body" style="border-top: 1px solid; border-color: lightgray;">
+    <div style="float: left;">
+        Total: {{ totalStr }}</div>
+    <button type="button" class="btn btn-success" style="float: right; margin-bottom: 10px;"
+        (click)="doTransaction()"
+        [disabled]="disabled">{{ mode }}</button>
+</div>

@@ -28,7 +28,6 @@ export class SearchChartComponent implements OnInit {
   historyChartOptions!: Highstock.Options;
 
   constructor(private context: ContextService) { 
-    console.log("constructor called!!");
     this.ticker = context.ticker;
     this.ohlc = this.context.ohlc;
     this.volume = this.context.volume;

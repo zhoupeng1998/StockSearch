@@ -36,6 +36,14 @@ export class NavbarComponent implements OnInit {
       }
       this.context.cardNavbarSwitchFlag = false;
     });
+
+    this.context.setWatchlistTabSubject.subscribe(() => {
+      this.setWatchlistTab();
+    });
+
+    this.context.setPortfolioTabSubject.subscribe(() => {
+      this.setPortfolioTab();
+    })
   }
 
   setSearchTab() {

@@ -8,8 +8,10 @@ import * as Highcharts from 'highcharts';
 
 import { ContextService } from '../context.service';
 import { DataService } from '../data.service';
-import { NewsModalComponent } from '../news-modal/news-modal.component';
 import { WatchlistService } from '../watchlist.service';
+import { TransactionService } from '../transaction.service';
+import { NewsModalComponent } from '../news-modal/news-modal.component';
+import { TransactionModalComponent } from '../transaction-modal/transaction-modal.component';
 
 window.moment = moment;
 moment_timezone();
@@ -46,6 +48,7 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
   watchlistRemoveFlag: boolean = false;
   buyAlertFlag: boolean = false;
   sellAlertFlag: boolean = false;
+  stockHoldingFlag: boolean = false;
 
   // data element
   @ViewChild('reservedElement', {static: false}) reservedElement!: ElementRef;
@@ -164,6 +167,7 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
     private context: ContextService,
     private dataService: DataService,
     private watchlistService: WatchlistService,
+    private transactionService: TransactionService,
     private renderer: Renderer2,
     private modalService: NgbModal,
     private cd: ChangeDetectorRef) { 
@@ -294,6 +298,7 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
       this.inputText = String(routeParams.get('symbol'));
       if (this.inputText != this.context.getSearchSymbol() || this.context.cardSwitchFlag) {
         // should reload here!
+        this.stockHoldingFlag = false;
         this.context.cardSwitchFlag = false;
         this.context.setSearchInput(this.inputText.trim().toUpperCase());
         this.handleSearch();
@@ -316,6 +321,7 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
       this.resetDataLoadFlags();
       this.resetAlertFlags();
       this.context.setClearContentFlag(false);
+      this.stockHoldingFlag = false;
       //this.context.setValidDataPresentFlag(false);
     } else {
       this.handleSearch();
@@ -326,6 +332,7 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
     this.resetDataLoadFlags();
     this.inputText = this.context.getSearchInput();
     this.resetAlertFlags();
+    this.stockHoldingFlag = false;
     if (this.inputText == null || this.inputText.trim().length == 0) {
       this.validSymbolFlag = false;
       this.invalidSymbolFlag = false;
@@ -387,6 +394,7 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
     this.industry = data.finnhubIndustry;
     this.weburl = data.weburl;
     this.weblink.nativeElement.href = data.weburl;
+    this.stockHoldingFlag = this.transactionService.isHoldingStock(this.ticker);
   }
 
   presentLatest() {
@@ -712,6 +720,45 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
     this.summaryChartLoadedFlag = false;
     this.historyChartLoadedFlag = false;
     this.historyChartReadyFlag = false;
+  }
+
+  // transaction
+  startBuyTransaction() {
+    let modalRef = this.modalService.open(TransactionModalComponent);
+    modalRef.componentInstance.mode = 'Buy';
+    modalRef.componentInstance.symbol = this.context.getSearchSymbol();
+    modalRef.componentInstance.name = this.name;
+    modalRef.componentInstance.ticker = this.ticker;
+    modalRef.componentInstance.price = Number(this.c);
+    modalRef.result.then(data => {
+      if (data == 'success') {
+        this.stockHoldingFlag = true;
+        this.buyAlertFlag = true;
+        const tsrc = timer(5000);
+        tsrc.subscribe(() => {
+          this.buyAlertFlag = false;
+        });
+      }
+    }).catch(() => {});
+  }
+
+  startSellTransaction() {
+    let modalRef = this.modalService.open(TransactionModalComponent);
+    modalRef.componentInstance.mode = 'Sell';
+    modalRef.componentInstance.ticker = this.ticker;
+    modalRef.componentInstance.price = Number(this.c);
+    modalRef.result.then(data => {
+      if (data == 'success' || data == 'zero') {
+        if (data == 'zero') {
+          this.stockHoldingFlag = false;
+        }
+        this.sellAlertFlag = true;
+        const tsrc = timer(5000);
+        tsrc.subscribe(() => {
+          this.sellAlertFlag = false;
+        });
+      }
+    }).catch(() => {});
   }
 
   // watchlist & portfolio

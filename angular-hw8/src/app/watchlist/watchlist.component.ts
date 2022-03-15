@@ -42,7 +42,6 @@ export class WatchlistComponent implements OnInit {
     this.watchlistEmptyAlert = this.watchlist.length == 0;
   }
 
-  // TODO: complete on card click feature
   onCardClick(symbol: string) {
     this.context.setSearchSymbol(symbol);
     this.context.setCardSwitchFlag(true);
@@ -61,6 +60,7 @@ export class WatchlistComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.context.setWatchlistTab();
     this.dataService.latestDataBySymbolReadySubject.subscribe(data => {
       if (data == null || data == '') {
         return;

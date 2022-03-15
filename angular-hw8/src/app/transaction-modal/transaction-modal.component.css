@@ -1,0 +1,11 @@
+@media (min-width: 768px) {
+    .transaction-input {
+        display: inline;
+        width: 40%;
+    }
+}
+
+@media (max-width: 400px) {
+    .transaction-input {
+    }
+}

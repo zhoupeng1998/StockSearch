@@ -1,1 +1,63 @@
-<p>portfolio works!</p>
+<ngb-alert *ngIf="buyAlertFlag" type="alert-success" class="alert alert-success" (closed)="buyAlertFlag = false">
+    {{ alertTicker }} bought successfully.
+</ngb-alert>
+
+<ngb-alert *ngIf="sellAlertFlag" type="alert-danger" class="alert alert-danger" (closed)="sellAlertFlag = false">
+    {{ alertTicker }} sold successfully.
+</ngb-alert>
+
+<div class="text-large">My Portfolio</div>
+<div class="text-mid" style="margin-bottom: 10px;">Money in Wallet: ${{ balance }}</div>
+
+<ngb-alert *ngIf="stocklistEmptyAlert" [dismissible]="false" style="text-align: center;">
+    Currently you don't have any stock.
+</ngb-alert>
+
+<div *ngFor="let stockItem of stocklist" style="margin-bottom: 10px;">
+    <div class="card">
+        <div class="card-header" (click)="onCardClick(stockItem.symbol)">
+            <span class="text-mid"><strong>{{ stockItem.ticker }}</strong></span>&nbsp;
+            <span class="text-small text-secondary">{{ stockItem.name }}</span>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md">
+                    <div>
+                        <span>Quantity: </span>
+                        <span style="float: right;">{{ stockItem.quantityStr }}</span>
+                    </div>
+                    <div>
+                        <span>Avg.Cost / Share: </span>
+                        <span style="float: right;">{{ stockItem.avg }}</span>
+                    </div><div>
+                        <span>Total Cost: </span>
+                        <span style="float: right;">{{ stockItem.total }}</span>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div>
+                        <span>Change: </span>
+                        <span style="float: right;" class="{{stockItem.color}}">
+                            <i *ngIf="stockItem.color == 'text-danger'" class="bi bi-caret-down-fill"></i>
+                            <i *ngIf="stockItem.color != 'text-danger'" class="bi bi-caret-up-fill"></i>
+                            {{ stockItem.change }}
+                        </span>
+                    </div>
+                    <div>
+                        <span>Current Price: </span>
+                        <span style="float: right;" class="{{stockItem.color}}">{{ stockItem.current }}</span>
+                    </div><div>
+                        <span>Market Value: </span>
+                        <span style="float: right;" class="{{stockItem.color}}">{{ stockItem.value }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <span style="float: right;">
+                <button type="button" class="btn btn-success" (click)="startBuyTransaction(stockItem.ticker, stockItem.symbol, stockItem.current)">Buy</button>&nbsp;
+                <button type="button" class="btn btn-danger" (click)="startSellTransaction(stockItem.ticker, stockItem.price)">Sell</button>
+            </span>
+        </div>
+    </div>
+</div>

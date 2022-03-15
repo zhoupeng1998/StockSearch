@@ -18,6 +18,7 @@ import { WatchlistComponent } from './watchlist/watchlist.component';
 import { PortfolioComponent } from './portfolio/portfolio.component';
 import { NewsModalComponent } from './news-modal/news-modal.component';
 import { SearchChartComponent } from './search-chart/search-chart.component';
+import { TransactionModalComponent } from './transaction-modal/transaction-modal.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { SearchChartComponent } from './search-chart/search-chart.component';
     PortfolioComponent,
     NewsModalComponent,
     SearchChartComponent,
+    TransactionModalComponent,
   ],
   imports: [
     BrowserModule,
