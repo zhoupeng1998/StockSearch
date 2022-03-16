@@ -52,11 +52,13 @@ export class TransactionService {
     if (stockShare == null) {
       stockShare = {quantity: 0, total: 0, symbol: symbol, name: name};
     }
-    stockShare.quantity += quantity;
-    stockShare.total += total;
+    console.log(typeof stockShare.quantity);
+    stockShare.quantity = Number(stockShare.quantity) + Number(quantity);
+    stockShare.total = Number(stockShare.total) + Number(total);
     stockShare.symbol = symbol;
     //stockShare.name = name;
     this.stockhold[ticker] = stockShare;
+    console.log(stockShare);
     window.localStorage.setItem('stockhold', JSON.stringify(this.stockhold));
     this.balance -= total;
     this.balance = Math.round(this.balance * 100) / 100;
@@ -68,8 +70,8 @@ export class TransactionService {
     if (stockShare == null || stockShare.quantity < quantity) {
       return false;
     }
-    stockShare.quantity -= quantity;
-    stockShare.total -= total;
+    stockShare.quantity = Number(stockShare.quantity) - Number(quantity);
+    stockShare.total = Number(stockShare.total) - Number(total);
     this.stockhold[ticker] = stockShare;
     if (stockShare.quantity == 0) {
       delete this.stockhold[ticker];

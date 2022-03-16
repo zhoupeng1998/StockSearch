@@ -43,12 +43,12 @@ export class PortfolioComponent implements OnInit {
       item.avg = item.avg.toFixed(2);
       item.quantityStr = item.quantity.toFixed(2);
       item.change = '0.00';
-      item.current = item.avg;
+      item.current = String(item.avg);
       item.value = item.total;
       item.color = "text-success"; // text color
       this.stocklist.push(item);
-      console.log(item);
       this.dataService.getLatestDataBySymbol(item.symbol);
+      console.log(item);
     }
     this.stocklistEmptyAlert = this.stocklist.length == 0;
   }
@@ -84,6 +84,7 @@ export class PortfolioComponent implements OnInit {
     let modalRef = this.modalService.open(TransactionModalComponent);
     modalRef.componentInstance.mode = 'Sell';
     modalRef.componentInstance.ticker = ticker;
+    console.log(Number(price));
     modalRef.componentInstance.price = Number(price);
     modalRef.result.then(data => {
       if (data == 'success' || data == 'zero') {
@@ -106,14 +107,15 @@ export class PortfolioComponent implements OnInit {
       var dataobj = JSON.parse(data);
       for (var i = 0; i < this.stocklist.length; i++) {
         if (dataobj.symbol == this.stocklist[i].symbol) {
-          this.stocklist[i].price = dataobj.c;
-          var change = Math.round((Number(dataobj.c) - Number(this.stocklist[i].price))) / 100;
+          this.stocklist[i].current = dataobj.c;
+          var change = Number(this.stocklist[i].current) - Number(this.stocklist[i].avg);
+          console.log(change);
           if (change < 0) {
-            this.stocklist[i].positive = false;
             this.stocklist[i].color = "text-danger";
-          } else {
-            this.stocklist[i].positive = true;
+          } else if (change > 0) {
             this.stocklist[i].color = "text-success";
+          } else {
+            this.stocklist[i].color = "";
           }
           this.stocklist[i].change = change.toFixed(2);
           this.stocklist[i].value = (Number(dataobj.c) * this.stocklist[i].quantity).toFixed(2);
@@ -134,13 +136,21 @@ export class PortfolioComponent implements OnInit {
       item.total = Number(item.total).toFixed(2);
       item.avg = item.avg.toFixed(2);
       item.quantityStr = item.quantity.toFixed(2);
-      item.change = '0.00';
-      item.current = item.avg;
-      item.value = item.total;
-      item.color = "text-success"; // text color
+      item.change = Number(item.current) - Number(item.avg);
+      console.log(item.color);
+      if (item.change < 0) {
+        item.color = "text-danger";
+      } else if (item.change > 0) {
+        item.color = "text-success";
+      } else {
+        item.color = "";
+      }
+      console.log(item.change);
+      console.log(item.color);
+      item.change = (item.change).toFixed(2);
+      //item.current = item.avg;
+      item.value = (Number(item.current) * item.quantity).toFixed(2);
       this.stocklist.push(item);
-      console.log(item);
-      //dataService.getLatestDataBySymbol(item.symbol);
     }
     this.stocklistEmptyAlert = this.stocklist.length == 0;
   }

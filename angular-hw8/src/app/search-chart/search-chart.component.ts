@@ -23,6 +23,11 @@ export class SearchChartComponent implements OnInit {
   ticker: string = '';
   ohlc: number[][] = [[1584316800000,93.89994,98.97398,88.434,89.014],[1584403200000,88.002,94.37,79.2,86.03999999999999]];
   volume: number[][] = [[1584316800000,102447320],[1584403200000,119972900]];
+  groupingUnits = [['week', [1]
+  ], [
+    'month',
+    [1, 2, 3, 4, 6]
+  ]]
 
   highstock: typeof Highstock = Highstock;
   historyChartOptions!: Highstock.Options;
@@ -37,13 +42,16 @@ export class SearchChartComponent implements OnInit {
     this.historyChartOptions = {
       rangeSelector: {
         allButtonsEnabled: true,
-        selected: 2
+        enabled: true
       },
       title: {
         text: this.ticker + ' Historical'
       },
       subtitle: {
         text: 'With SMA and Volume by Price technical indicators'
+      },
+      xAxis: {
+        type: 'datetime'
       },
       yAxis: [{
         startOnTick: false,
