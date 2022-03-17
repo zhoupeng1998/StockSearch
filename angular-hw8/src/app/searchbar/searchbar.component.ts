@@ -23,6 +23,7 @@ export class SearchbarComponent implements OnInit {
   dummyCtrl = new FormControl();
   resultCompanies: Observable<any[]>;
   loading: boolean;
+  autocompleteEnabled: boolean = true;
   companies: any[];
 
   constructor(
@@ -73,6 +74,11 @@ export class SearchbarComponent implements OnInit {
       this.notify.emit();
     }
     return value;
+  }
+
+  onFormSubmit(event: Event) {
+    event.preventDefault();
+    this.onSearchClick();
   }
 
   onSearchClick() {

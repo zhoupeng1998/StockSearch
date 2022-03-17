@@ -333,7 +333,7 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
     this.inputText = this.context.getSearchInput();
     this.resetAlertFlags();
     this.stockHoldingFlag = false;
-    if (this.inputText == null || this.inputText.trim().length == 0) {
+    if (this.inputText == null || !this.validateSearchInput(this.inputText)) {
       this.validSymbolFlag = false;
       this.invalidSymbolFlag = false;
       this.noInputFlag = true;
@@ -353,6 +353,15 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
       this.invalidSymbolFlag = false;
       this.dataService.getAllData();
     }
+  }
+
+  validateSearchInput(inputText: String) {
+    var input = inputText.trim().toUpperCase();
+    if (input.length == 0) {
+      return false;
+    }
+    const re = /^[a-z0-9]+$/i;
+    return re.test(input);
   }
 
   handlePeerSearch(name: String) {

@@ -50,6 +50,12 @@ export class SearchChartComponent implements OnInit {
       subtitle: {
         text: 'With SMA and Volume by Price technical indicators'
       },
+      navigator: {
+        enabled: true
+      },
+      scrollbar: {
+        enabled: true
+      },
       xAxis: {
         type: 'datetime'
       },
@@ -92,12 +98,14 @@ export class SearchChartComponent implements OnInit {
         }
       },
       series: [{
+        showInLegend: false,
         type: 'candlestick',
         name: this.ticker,
         id: 'aapl',
         zIndex: 2,
         data: this.ohlc
       }, {
+        showInLegend: false,
         type: 'column',
         name: 'Volume',
         id: 'volume',
