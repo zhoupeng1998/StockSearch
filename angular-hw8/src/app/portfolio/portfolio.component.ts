@@ -38,17 +38,17 @@ export class PortfolioComponent implements OnInit {
     for (var ticker in this.stockhold) {
       var item = Object(this.stockhold[ticker]);
       item.ticker = ticker;
-      item.avg = Math.round((item.total / item.quantity) * 100) / 100;
+      //item.avg = Math.round((item.total / item.quantity) * 100) / 100;
       item.total = Number(item.total).toFixed(2);
-      item.avg = item.avg.toFixed(2);
+      //item.avg = item.avg.toFixed(2);
+      item.avg = Number(item.avg).toFixed(2);
       item.quantityStr = item.quantity.toFixed(2);
-      item.change = '0.00';
+      item.change = '';
       item.current = String(item.avg);
       item.value = item.total;
       item.color = "text-success"; // text color
       this.stocklist.push(item);
       this.dataService.getLatestDataBySymbol(item.symbol);
-      console.log(item);
     }
     this.stocklistEmptyAlert = this.stocklist.length == 0;
   }
@@ -84,7 +84,6 @@ export class PortfolioComponent implements OnInit {
     let modalRef = this.modalService.open(TransactionModalComponent);
     modalRef.componentInstance.mode = 'Sell';
     modalRef.componentInstance.ticker = ticker;
-    console.log(Number(price));
     modalRef.componentInstance.price = Number(price);
     modalRef.result.then(data => {
       if (data == 'success' || data == 'zero') {
@@ -109,7 +108,6 @@ export class PortfolioComponent implements OnInit {
         if (dataobj.symbol == this.stocklist[i].symbol) {
           this.stocklist[i].current = dataobj.c;
           var change = Number(this.stocklist[i].current) - Number(this.stocklist[i].avg);
-          console.log(change);
           if (change < 0) {
             this.stocklist[i].color = "text-danger";
           } else if (change > 0) {
@@ -132,12 +130,12 @@ export class PortfolioComponent implements OnInit {
     for (var ticker in this.stockhold) {
       var item = Object(this.stockhold[ticker]);
       item.ticker = ticker;
-      item.avg = Math.round((item.total / item.quantity) * 100) / 100;
+      //item.avg = Math.round((item.total / item.quantity) * 100) / 100;
       item.total = Number(item.total).toFixed(2);
-      item.avg = item.avg.toFixed(2);
+      //item.avg = item.avg.toFixed(2);
+      item.avg = Number(item.avg).toFixed(2);
       item.quantityStr = item.quantity.toFixed(2);
       item.change = Number(item.current) - Number(item.avg);
-      console.log(item.color);
       if (item.change < 0) {
         item.color = "text-danger";
       } else if (item.change > 0) {
@@ -145,8 +143,6 @@ export class PortfolioComponent implements OnInit {
       } else {
         item.color = "";
       }
-      console.log(item.change);
-      console.log(item.color);
       item.change = (item.change).toFixed(2);
       //item.current = item.avg;
       item.value = (Number(item.current) * item.quantity).toFixed(2);

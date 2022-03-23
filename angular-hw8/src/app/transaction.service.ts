@@ -50,15 +50,14 @@ export class TransactionService {
   buyStock(ticker: string, symbol: string, name: string, quantity: number, total: number) {
     var stockShare = this.stockhold[ticker];
     if (stockShare == null) {
-      stockShare = {quantity: 0, total: 0, symbol: symbol, name: name};
+      stockShare = {quantity: 0, total: 0, avg: 0, symbol: symbol, name: name};
     }
-    console.log(typeof stockShare.quantity);
     stockShare.quantity = Number(stockShare.quantity) + Number(quantity);
     stockShare.total = Number(stockShare.total) + Number(total);
+    stockShare.avg = Number(stockShare.total) / Number(stockShare.quantity);
     stockShare.symbol = symbol;
     //stockShare.name = name;
     this.stockhold[ticker] = stockShare;
-    console.log(stockShare);
     window.localStorage.setItem('stockhold', JSON.stringify(this.stockhold));
     this.balance -= total;
     this.balance = Math.round(this.balance * 100) / 100;
@@ -71,7 +70,11 @@ export class TransactionService {
       return false;
     }
     stockShare.quantity = Number(stockShare.quantity) - Number(quantity);
-    stockShare.total = Number(stockShare.total) - Number(total);
+    //stockShare.total = Number(stockShare.total) - Number(total);
+    stockShare.total = Number(stockShare.total) - (quantity * Number(stockShare.avg));
+    console.log("old avg: " + stockShare.avg);
+    stockShare.avg = stockShare.total / stockShare.quantity;
+    console.log("new avg: " + stockShare.avg);
     this.stockhold[ticker] = stockShare;
     if (stockShare.quantity == 0) {
       delete this.stockhold[ticker];
