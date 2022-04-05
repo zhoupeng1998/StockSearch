@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="320dp"
+    android:layout_height="250dp"
+    android:padding="16dp"
+    android:background="@drawable/dialog_transaction_bg">
+
+    <TextView
+        android:id="@+id/transactionTitleText"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:text="TextView"
+        android:textColor="#000000"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/transactionInputBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/transactionTitleText"
+        android:ems="10"
+        android:inputType="numberDecimal" />
+
+    <TextView
+        android:layout_width="50dp"
+        android:layout_height="30dp"
+        android:layout_below="@id/transactionTitleText"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@id/transactionInputBox"
+        android:gravity="center_horizontal"
+        android:paddingTop="10dp"
+        android:text="shares" />
+
+    <TextView
+        android:id="@+id/transactionPreviewText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/transactionInputBox"
+        android:gravity="right"
+        android:paddingTop="5dp"
+        android:text="$000"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/transactionInfoText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/transactionPreviewText"
+        android:paddingTop="10dp"
+        android:text="$000"
+        android:gravity="center" />
+
+    <Button
+        android:id="@+id/doneButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/transactionInfoText"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="#8BC34A"
+        android:gravity="center"
+        android:text="BUY"
+        android:textColor="#FFFFFF" />
+
+    <Button
+        android:id="@+id/sellButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/transactionInfoText"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_toEndOf="@id/doneButton"
+        android:gravity="center"
+        android:text="SELL"
+        android:backgroundTint="#8BC34A"
+        android:textColor="#FFFFFF"/>
+
+</RelativeLayout>

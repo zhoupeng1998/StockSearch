@@ -587,6 +587,9 @@ export class SearchComponent implements OnInit, OnDestroy, AfterViewInit {
     var data = JSON.parse(window.localStorage.getItem('peers') || "");
     this.peers =data.join(', ');
     this.peers = String(data.length);
+    while (this.peerlist.nativeElement.firstChild) {
+      this.peerlist.nativeElement.removeChild(this.peerlist.nativeElement.firstChild);
+    }
     for (var i = 0; i < data.length; i++) {
       if (i != 0) {
         let comma = document.createElement("span");

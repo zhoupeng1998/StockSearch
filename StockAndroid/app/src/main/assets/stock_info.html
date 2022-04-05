@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    </head>
+    <body>
+        <div id="stats">
+            <h3>Stats</h3>
+            <table style="width: 400px">
+                <tr>
+                    <td style="width: 50%">Open Price: $
+                        <span id="openPrice"></span>
+                    </td>
+                    <td>High Price: $
+                        <span id="highPrice"></span>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Low Price: $
+                        <span id="lowPrice"></span>
+                    </td>
+                    <td>Prev. Price: $
+                        <span id="prevClosePrice"></span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div id="about">
+            <h3>About</h3>
+            <table>
+                <tr>
+                    <td style="width: 150px">IPO Start Date</td>
+                    <td id="ipo">X</td>
+                </tr>
+                <tr>
+                    <td>Industry</td>
+                    <td id="industry">X</td>
+                </tr>
+                <tr>
+                    <td>Webpage</td>
+                    <td>
+                        <a id="webPage" href="javascript:void(0)" onclick="gotoWebPage()"></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Company Peers</td>
+                    <td id="peers">X</td>
+                </tr>
+            </table>
+        </div>
+        <div id="insights-head">
+            <h3>Insights</h3>
+        </div>
+        <script src="stock_info.js"></script>
+    </body>
+</html>

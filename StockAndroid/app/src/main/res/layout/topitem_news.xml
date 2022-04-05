@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="320dp"
+    android:layout_margin="15dp"
+    android:background="@drawable/newsbox_bg"
+    android:elevation="5dp">
+
+    <!--
+    <TextView
+        android:id="@+id/myview"
+        android:layout_width="251dp"
+        android:layout_height="125dp"
+        android:background="@drawable/newsbox_bg"
+        android:elevation="10dp" />
+    -->
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/topnewsCardView"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_alignParentEnd="true"
+        android:orientation="vertical"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="0dp">
+
+        <ImageView
+            android:id="@+id/topnewsImageView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/newsbox_bg"
+            app:srcCompat="@drawable/logo" />
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/topnewsSourceTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/topnewsCardView"
+        android:text="Source"
+        android:textSize="17sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/topnewsDateTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toEndOf="@+id/topnewsSourceTextView"
+        android:layout_below="@+id/topnewsCardView"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="Publish Time"
+        android:textSize="17sp" />
+
+    <TextView
+        android:id="@+id/topnewsTitleTextView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topnewsSourceTextView"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="130dp"
+        android:layout_marginBottom="10dp"
+        android:text="News Text"
+        android:textColor="@color/black"
+        android:textSize="17dp"
+        android:textStyle="bold" />
+
+
+
+
+</RelativeLayout>
