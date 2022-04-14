@@ -46,7 +46,7 @@ public class PortfolioRecyclerViewAdapter extends RecyclerView.Adapter implement
         portfolioHolder.getEntryDescription().setText(stockhold.getQuantity().toString() + " shares");
         portfolioHolder.getEntryAmount().setText(String.format("$%.2f", stockhold.getMarketValue()));
         Double change = stockhold.getChange() * stockhold.getQuantity();
-        Double changePercent = change / stockhold.getTotalCost();
+        Double changePercent = (change / stockhold.getTotalCost()) * 100;
         System.out.println(change);
         System.out.println(changePercent);
         if (change >= 0.01) {
