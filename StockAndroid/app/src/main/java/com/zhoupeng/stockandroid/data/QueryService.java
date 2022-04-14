@@ -35,7 +35,7 @@ public class QueryService {
 
     public void queryProfile(RequestQueue requestQueue, String symbol) {
         symbol = symbol.trim().toUpperCase();
-        String url = "http://10.0.2.2/api/profile/" + symbol;
+        String url = "http://node571-env.eba-srjtpbg8.us-west-2.elasticbeanstalk.com/api/profile/" + symbol;
         final StringRequest request = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -54,7 +54,7 @@ public class QueryService {
 
     public void queryLatest(RequestQueue requestQueue, String symbol) {
         symbol = symbol.trim().toUpperCase();
-        String url = "http://10.0.2.2/api/latest/" + symbol;
+        String url = "http://node571-env.eba-srjtpbg8.us-west-2.elasticbeanstalk.com/api/latest/" + symbol;
         String finalSymbol = symbol;
         final StringRequest request = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -86,7 +86,7 @@ public class QueryService {
 
     public void queryNews(RequestQueue requestQueue, String symbol) {
         symbol = symbol.trim().toUpperCase();
-        String url = "http://10.0.2.2/api/news/" + symbol;
+        String url = "http://node571-env.eba-srjtpbg8.us-west-2.elasticbeanstalk.com/api/news/" + symbol;
         final StringRequest request = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -105,7 +105,7 @@ public class QueryService {
 
     public void queryRecommendation(RequestQueue requestQueue, String symbol) {
         symbol = symbol.trim().toUpperCase();
-        String url = "http://10.0.2.2/api/recommendation/" + symbol;
+        String url = "http://node571-env.eba-srjtpbg8.us-west-2.elasticbeanstalk.com/api/recommendation/" + symbol;
         final StringRequest request = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -124,7 +124,7 @@ public class QueryService {
 
     public void querySocial(RequestQueue requestQueue, String symbol) {
         symbol = symbol.trim().toUpperCase();
-        String url = "http://10.0.2.2/api/social/" + symbol;
+        String url = "http://node571-env.eba-srjtpbg8.us-west-2.elasticbeanstalk.com/api/social/" + symbol;
         final StringRequest request = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -143,7 +143,7 @@ public class QueryService {
 
     public void queryPeers(RequestQueue requestQueue, String symbol) {
         symbol = symbol.trim().toUpperCase();
-        String url = "http://10.0.2.2/api/peers/" + symbol;
+        String url = "http://node571-env.eba-srjtpbg8.us-west-2.elasticbeanstalk.com/api/peers/" + symbol;
         final StringRequest request = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -162,7 +162,7 @@ public class QueryService {
 
     public void queryEarnings(RequestQueue requestQueue, String symbol) {
         symbol = symbol.trim().toUpperCase();
-        String url = "http://10.0.2.2/api/earnings/" + symbol;
+        String url = "http://node571-env.eba-srjtpbg8.us-west-2.elasticbeanstalk.com/api/earnings/" + symbol;
         final StringRequest request = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -181,7 +181,7 @@ public class QueryService {
 
     public void queryHistoryCandle(RequestQueue requestQueue, String symbol) {
         symbol = symbol.trim().toUpperCase();
-        String url = "http://10.0.2.2/api/candle/year/" + symbol;
+        String url = "http://node571-env.eba-srjtpbg8.us-west-2.elasticbeanstalk.com/api/candle/year/" + symbol;
         System.out.println(url);
         final StringRequest request = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -201,7 +201,7 @@ public class QueryService {
 
     public void querySummaryCandle(RequestQueue requestQueue, String symbol, String timestamp) {
         symbol = symbol.trim().toUpperCase();
-        String url = "http://10.0.2.2/api/candle/hour/" + symbol + '/' + timestamp;
+        String url = "http://node571-env.eba-srjtpbg8.us-west-2.elasticbeanstalk.com/api/candle/hour/" + symbol + '/' + timestamp;
         System.out.println(url);
         final StringRequest request = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -224,7 +224,7 @@ public class QueryService {
      * */
     public void queryAutoComplete(RequestQueue requestQueue, String symbol) {
         symbol = symbol.trim().toUpperCase();
-        String url = "http://10.0.2.2/api/autocomplete/" + symbol;
+        String url = "http://node571-env.eba-srjtpbg8.us-west-2.elasticbeanstalk.com/api/autocomplete/" + symbol;
         final StringRequest request = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -248,7 +248,7 @@ public class QueryService {
      * */
     public void queryLatestUpdate(RequestQueue requestQueue, String symbol) {
         symbol = symbol.trim().toUpperCase();
-        String url = "http://10.0.2.2/api/latest/" + symbol;
+        String url = "http://node571-env.eba-srjtpbg8.us-west-2.elasticbeanstalk.com/api/latest/" + symbol;
         String finalSymbol = symbol;
         String finalSymbol1 = symbol;
         final StringRequest request = new StringRequest(Request.Method.GET, url,
