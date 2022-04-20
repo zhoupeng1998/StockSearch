@@ -5,7 +5,7 @@ from datetime import datetime
 from dateutil.relativedelta import relativedelta
 import pytz
 
-key = 'c7qen62ad3i9it666nrg'
+key = '' # Your Finnhub key
 app = Flask(__name__)
 
 monthDict = {
